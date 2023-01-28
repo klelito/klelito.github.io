@@ -1,0 +1,85 @@
+@font-face {
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff2") format("woff2"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+.fimanager:before {
+    display: inline-block;
+  font-family: "Flaticon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+
+.flaticon-001-apiarist:before { content: "\f100"; }
+.flaticon-002-apiary:before { content: "\f101"; }
+.flaticon-003-bear:before { content: "\f102"; }
+.flaticon-004-bee:before { content: "\f103"; }
+.flaticon-005-beehive:before { content: "\f104"; }
+.flaticon-006-beehive:before { content: "\f105"; }
+.flaticon-007-beehive:before { content: "\f106"; }
+.flaticon-008-beehive:before { content: "\f107"; }
+.flaticon-009-cosmetics:before { content: "\f108"; }
+.flaticon-010-drop:before { content: "\f109"; }
+.flaticon-011-flower:before { content: "\f10a"; }
+.flaticon-012-flower:before { content: "\f10b"; }
+.flaticon-013-barrel:before { content: "\f10c"; }
+.flaticon-014-cake:before { content: "\f10d"; }
+.flaticon-015-honey-jar:before { content: "\f10e"; }
+.flaticon-016-honey-jar:before { content: "\f10f"; }
+.flaticon-017-tea:before { content: "\f110"; }
+.flaticon-018-teapot:before { content: "\f111"; }
+.flaticon-019-toast:before { content: "\f112"; }
+.flaticon-020-honey-jar:before { content: "\f113"; }
+.flaticon-021-honey:before { content: "\f114"; }
+.flaticon-022-honey:before { content: "\f115"; }
+.flaticon-023-honey:before { content: "\f116"; }
+.flaticon-024-honeycomb:before { content: "\f117"; }
+.flaticon-025-honeycomb:before { content: "\f118"; }
+
+$font-Flaticon-001-apiarist: "\f100";
+$font-Flaticon-002-apiary: "\f101";
+$font-Flaticon-003-bear: "\f102";
+$font-Flaticon-004-bee: "\f103";
+$font-Flaticon-005-beehive: "\f104";
+$font-Flaticon-006-beehive: "\f105";
+$font-Flaticon-007-beehive: "\f106";
+$font-Flaticon-008-beehive: "\f107";
+$font-Flaticon-009-cosmetics: "\f108";
+$font-Flaticon-010-drop: "\f109";
+$font-Flaticon-011-flower: "\f10a";
+$font-Flaticon-012-flower: "\f10b";
+$font-Flaticon-013-barrel: "\f10c";
+$font-Flaticon-014-cake: "\f10d";
+$font-Flaticon-015-honey-jar: "\f10e";
+$font-Flaticon-016-honey-jar: "\f10f";
+$font-Flaticon-017-tea: "\f110";
+$font-Flaticon-018-teapot: "\f111";
+$font-Flaticon-019-toast: "\f112";
+$font-Flaticon-020-honey-jar: "\f113";
+$font-Flaticon-021-honey: "\f114";
+$font-Flaticon-022-honey: "\f115";
+$font-Flaticon-023-honey: "\f116";
+$font-Flaticon-024-honeycomb: "\f117";
+$font-Flaticon-025-honeycomb: "\f118";

@@ -1,0 +1,15 @@
+#logo1 {
+    color: #bd7a21;
+}
+#logo2 {
+    color: #693303;
+}
+.carousel-item.active,
+.carousel-item-next,
+.carousel-item-prev{
+    display:block;
+}
+.ikona2115 {
+    font-size: 80px !important;
+    color:  rgba(255, 187, 0, 0.671) !important;
+}

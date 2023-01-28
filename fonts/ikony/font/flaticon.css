@@ -1,0 +1,81 @@
+@font-face {
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff2") format("woff2"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+.fimanager:before {
+      display: inline-block;
+  font-family: "Flaticon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+    display: block;
+}
+
+.ftco-feature-1 {
+  text-align: center;
+  padding-top: 30px;
+  -webkit-transition: .3s all ease;
+  -o-transition: .3s all ease;
+  transition: .3s all ease;
+  background: #fff; }
+  .ftco-feature-1 .icon {
+    font-size: 70px ; 
+    color: #f23a2e ; }
+  .ftco-feature-1 .ftco-feature-1-text {
+    padding: 30px; }
+  .ftco-feature-1 h2 {
+    font-size: 20px;
+    font-weight: bold; }
+  .ftco-feature-1 p {
+    color: #989898; }
+  .ftco-feature-1:hover, .ftco-feature-1.active {
+    -webkit-box-shadow: 0 0 20px -5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px -5px rgba(0, 0, 0, 0.1); }
+
+.flaticon-001-apiarist:before { content: "\f100"; }
+.flaticon-002-apiary:before { content: "\f101"; }
+.flaticon-003-bear:before { content: "\f102"; }
+.flaticon-004-bee:before { content: "\f103"; }
+.flaticon-005-beehive:before { content: "\f104"; }
+.flaticon-006-beehive:before { content: "\f105"; }
+.flaticon-007-beehive:before { content: "\f106"; }
+.flaticon-008-beehive:before { content: "\f107"; }
+.flaticon-009-cosmetics:before { content: "\f108"; }
+.flaticon-010-drop:before { content: "\f109"; }
+.flaticon-011-flower:before { content: "\f10a"; }
+.flaticon-012-flower:before { content: "\f10b"; }
+.flaticon-013-barrel:before { content: "\f10c"; }
+.flaticon-014-cake:before { content: "\f10d"; }
+.flaticon-015-honey-jar:before { content: "\f10e"; }
+.flaticon-016-honey-jar:before { content: "\f10f"; }
+.flaticon-017-tea:before { content: "\f110"; }
+.flaticon-018-teapot:before { content: "\f111"; }
+.flaticon-019-toast:before { content: "\f112"; }
+.flaticon-020-honey-jar:before { content: "\f113"; }
+.flaticon-021-honey:before { content: "\f114"; }
+.flaticon-022-honey:before { content: "\f115"; }
+.flaticon-023-honey:before { content: "\f116"; }
+.flaticon-024-honeycomb:before { content: "\f117"; }
+.flaticon-025-honeycomb:before { content: "\f118"; }
