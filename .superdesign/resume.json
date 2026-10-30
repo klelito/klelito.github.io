@@ -1,0 +1,35 @@
+{
+  "projectId": "d71d891e-29c3-4c7e-a0c4-b53174359c5c",
+  "canvas": "https://superdesign.dev/teams/8b41be91-71a8-4011-9a82-fd44a446cc75/projects/d71d891e-29c3-4c7e-a0c4-b53174359c5c",
+  "targets": {
+    "home": {
+      "activeDraftId": "f484d4f4-af77-4ccd-b62b-234dd365e0d4",
+      "activeVersion": 2,
+      "direction": "B — Aurora (selected)",
+      "scope": "nav, hero, metrics, selected projects",
+      "contextFiles": [
+        ".superdesign/design-system.md"
+      ]
+    },
+    "home-alt-schematic": {
+      "activeDraftId": "e04c9a6b-8ba0-4e05-98e7-447fc94cd00a",
+      "direction": "A — Schematic (not selected)"
+    },
+    "home-lower": {
+      "activeDraftId": "9fe84044-27c4-44ca-b0db-672a3b74451f",
+      "sourceDraftId": "f484d4f4-af77-4ccd-b62b-234dd365e0d4",
+      "scope": "experience, skills, collaboration, contact, footer",
+      "contextFiles": [
+        ".superdesign/design-system.md"
+      ]
+    },
+    "case-study": {
+      "activeDraftId": "35e4f5ca-fa64-45d3-853e-50866f9cddf1",
+      "sourceDraftId": "f484d4f4-af77-4ccd-b62b-234dd365e0d4",
+      "scope": "case study detail template (Konwerter BOM)",
+      "contextFiles": [
+        ".superdesign/design-system.md"
+      ]
+    }
+  }
+}

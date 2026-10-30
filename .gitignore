@@ -1,0 +1,23 @@
+# dependencies & build output
+node_modules/
+dist/
+.astro/
+
+# local env / secrets (e.g. confidential terms list)
+.env
+.env.*
+!.env.example
+*.local
+
+# test artifacts
+test-results/
+playwright-report/
+
+# superdesign temp files
+.superdesign/tmp/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
