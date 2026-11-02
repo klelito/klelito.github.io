@@ -1,0 +1,22 @@
+---
+// Home page body shared by `/` and `/en/`.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ProjectsSection from '../components/ProjectsSection.astro';
+import { homePath, type Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { getFeaturedProjects, getHighlights } from '../lib/content';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const s = t(locale);
+const [featured, highlights] = await Promise.all([getFeaturedProjects(locale), getHighlights()]);
+---
+
+<BaseLayout locale={locale} title={s['meta.homeTitle']} description={s['meta.homeDescription']} path={homePath(locale)}>
+  <Hero locale={locale} featured={featured} highlights={highlights} />
+  <ProjectsSection locale={locale} projects={featured} />
+</BaseLayout>

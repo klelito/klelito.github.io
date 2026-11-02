@@ -1,0 +1,49 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import { projectsPath, type Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import type { Project } from '../lib/content';
+
+interface Props {
+  locale: Locale;
+  projects: Project[];
+}
+
+const { locale, projects } = Astro.props;
+const s = t(locale);
+---
+
+<section id="projekty" class="section container" aria-labelledby="projekty-title">
+  <div class="section-head">
+    <h2 id="projekty-title" class="section-title">{s['projects.title']}</h2>
+    <a class="link-arrow" href={projectsPath(locale)}>
+      {s['projects.all']}
+      <span aria-hidden="true">→</span>
+    </a>
+  </div>
+  <div class="project-grid">
+    {projects.map((project) => <ProjectCard locale={locale} project={project} />)}
+  </div>
+</section>
+
+<style>
+  .section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-10);
+  }
+
+  .project-grid {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 768px) {
+    .project-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

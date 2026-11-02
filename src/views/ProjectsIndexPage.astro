@@ -1,0 +1,55 @@
+---
+// Project list shared by `/projekty/` and `/en/projects/`.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projectsPath, type Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { getProjects } from '../lib/content';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const s = t(locale);
+const projects = await getProjects(locale);
+---
+
+<BaseLayout locale={locale} title={`${s['projects.listTitle']} — ${s['meta.homeTitle']}`} description={s['projects.listLead']} path={projectsPath(locale)}>
+  <section class="container list-page">
+    <header class="list-head">
+      <h1 class="section-title">{s['projects.listTitle']}</h1>
+      <p class="muted">{s['projects.listLead']}</p>
+    </header>
+    <div class="project-grid">
+      {projects.map((project) => <ProjectCard locale={locale} project={project} />)}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .list-page {
+    padding-block: calc(var(--header-offset) + var(--space-10)) var(--space-24);
+  }
+
+  .list-head {
+    display: grid;
+    gap: var(--space-3);
+    margin-bottom: var(--space-10);
+  }
+
+  .list-head h1 {
+    font-size: var(--text-h1);
+  }
+
+  .project-grid {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 768px) {
+    .project-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
