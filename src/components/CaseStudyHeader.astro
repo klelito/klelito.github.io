@@ -20,7 +20,7 @@ const demo = data.kind === 'own' ? data.links?.demo : undefined;
 <header class="cs-header">
   <Aurora />
   <div class="container cs-header-inner">
-    <div class="crumbs">
+    <div class="crumbs on-aurora">
       <a class="crumb mono" href={projectsPath(locale)}>
         <span aria-hidden="true">←</span>
         {s['case.back']}
@@ -31,7 +31,7 @@ const demo = data.kind === 'own' ? data.links?.demo : undefined;
     </div>
 
     <h1 class="cs-title">{data.title}</h1>
-    <p class="cs-lead">{data.summary}</p>
+    <p class="cs-lead on-aurora">{data.summary}</p>
 
     <dl class="meta">
       <div class="meta-cell">

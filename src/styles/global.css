@@ -192,6 +192,24 @@ svg {
   background: var(--color-surface);
 }
 
+/* Muted text placed over the aurora: a soft local scrim keeps WCAG AA contrast
+   ("aurora stays behind and desaturated where text sits" — design system). Guarded by tests/e2e/contrast.spec.ts. */
+.on-aurora {
+  position: relative;
+  isolation: isolate;
+}
+
+.on-aurora::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -0.75rem -1.25rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-scrim);
+  filter: blur(16px);
+  pointer-events: none;
+}
+
 /* Section heading with a faint warm glow */
 .section-title {
   position: relative;

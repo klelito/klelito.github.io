@@ -20,7 +20,7 @@ const s = t(locale);
 <section class="hero" aria-labelledby="hero-title">
   <Aurora />
   <div class="container hero-inner">
-    <p class="eyebrow">
+    <p class="eyebrow on-aurora">
       <span class="eyebrow-dot" aria-hidden="true"></span>
       <span class="mono">{s['hero.eyebrow']}</span>
     </p>
@@ -29,7 +29,7 @@ const s = t(locale);
       {s['hero.titleBefore']}{' '}<span class="accent">{s['hero.titleAccent']}</span>{' '}{s['hero.titleAfter']}
     </h1>
 
-    <p class="hero-subtitle">{s['hero.subtitle']}</p>
+    <p class="hero-subtitle on-aurora">{s['hero.subtitle']}</p>
 
     <div class="hero-ctas">
       <a class="btn-key" href={SITE.cv[locale]} download>
