@@ -81,3 +81,25 @@ for (const width of [768, 820, 900, 1024, 1280]) {
     await ctx.close();
   });
 }
+
+test('mobile menu closes after choosing a section and on Escape', async ({ browser }) => {
+  const ctx = await browser.newContext({ viewport: { width: 375, height: 812 } });
+  const page = await ctx.newPage();
+  await page.goto('http://localhost:4321/');
+  const menu = page.locator('details.nav-menu');
+  const summary = menu.locator('summary');
+
+  await summary.click();
+  await expect(menu).toHaveJSProperty('open', true);
+  await menu.getByRole('link', { name: ui.pl['nav.contact'] }).click();
+  await expect(page).toHaveURL(/#kontakt$/);
+  await expect(menu).toHaveJSProperty('open', false);
+  await expect(page.locator('#kontakt-title')).toBeInViewport();
+
+  await summary.click();
+  await expect(menu).toHaveJSProperty('open', true);
+  await page.keyboard.press('Escape');
+  await expect(menu).toHaveJSProperty('open', false);
+  await expect(summary).toBeFocused();
+  await ctx.close();
+});
