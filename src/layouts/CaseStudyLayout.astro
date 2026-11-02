@@ -52,6 +52,8 @@ const { data } = project;
 <style>
   .cs-body {
     display: grid;
+    /* minmax(0, …): the mobile TOC strip must scroll inside the column, not widen it past the screen */
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-10);
     padding-bottom: var(--space-24);
   }

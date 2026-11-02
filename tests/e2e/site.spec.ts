@@ -8,8 +8,11 @@ for (const route of ALL_ROUTES) {
   test.describe(route, () => {
     test('no horizontal overflow', async ({ page }) => {
       await page.goto(route);
-      // body has overflow-x: clip, so scrollWidth alone would hide clipped text — check every text run.
-      const offenders = await page.evaluate(() => {
+      // Compare against the configured viewport, not window.innerWidth: with isMobile emulation Chrome
+      // widens the visual viewport to fit overflowing content, so innerWidth hides the overflow.
+      // body has overflow-x: clip, so scrollWidth alone would also hide clipped text — check every text run.
+      const limit = page.viewportSize()!.width;
+      const offenders = await page.evaluate((limit) => {
         // Skip text the user cannot see (closed <details>, display:none, sr-only clip) and
         // text inside deliberately scrollable containers (mobile TOC, diagram).
         const exempt = (el: Element | null): boolean => {
@@ -28,20 +31,16 @@ for (const route of ALL_ROUTES) {
           const range = document.createRange();
           range.selectNodeContents(node);
           for (const rect of range.getClientRects()) {
-            if (rect.width > 1 && (rect.right > window.innerWidth + 1 || rect.left < -1)) {
+            if (rect.width > 1 && (rect.right > limit + 1 || rect.left < -1)) {
               out.push(node.textContent.trim().slice(0, 40));
               break;
             }
           }
         }
-        return {
-          offenders: out,
-          scrollWidth: document.documentElement.scrollWidth,
-          innerWidth: window.innerWidth,
-        };
-      });
+        return { offenders: out, scrollWidth: document.documentElement.scrollWidth };
+      }, limit);
       expect(offenders.offenders).toEqual([]);
-      expect(offenders.scrollWidth).toBeLessThanOrEqual(offenders.innerWidth);
+      expect(offenders.scrollWidth).toBeLessThanOrEqual(limit);
     });
 
     test('internal links end with a slash, hash or file extension', async ({ page }) => {
