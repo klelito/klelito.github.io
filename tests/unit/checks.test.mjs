@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { checkTranslations } from '../../scripts/check-translations.mjs';
-import { checkCv } from '../../scripts/check-cv.mjs';
+import { checkCv, cvFilesFromSite } from '../../scripts/check-cv.mjs';
 import { parseTerms, findConfidential, readTermsFile } from '../../scripts/check-confidential.mjs';
 
 function tmpDir() {
@@ -75,7 +75,7 @@ test('checkTranslations reports a missing experience translation', () => {
 test('checkCv reports a missing CV', () => {
   const root = tmpDir();
   write(root, 'cv/cv-pl.pdf', '%PDF-1.7\n...');
-  const errors = checkCv(root);
+  const errors = checkCv(root, ['cv/cv-pl.pdf', 'cv/cv-en.pdf']);
   assert.equal(errors.length, 1);
   assert.match(errors[0], /cv-en\.pdf/);
 });
@@ -84,9 +84,18 @@ test('checkCv reports a file that is not a PDF', () => {
   const root = tmpDir();
   write(root, 'cv/cv-pl.pdf', '%PDF-1.7\n...');
   write(root, 'cv/cv-en.pdf', 'hello');
-  const errors = checkCv(root);
+  const errors = checkCv(root, ['cv/cv-pl.pdf', 'cv/cv-en.pdf']);
   assert.equal(errors.length, 1);
   assert.match(errors[0], /not a PDF/);
+});
+
+test('cvFilesFromSite follows SITE.cv and is empty when CV download is disabled', () => {
+  assert.deepEqual(cvFilesFromSite({ cv: null }), []);
+  assert.deepEqual(cvFilesFromSite({ cv: { pl: '/cv/a.pdf', en: '/cv/b.pdf' } }), ['cv/a.pdf', 'cv/b.pdf']);
+});
+
+test('checkCv has nothing to check when no CV is configured', () => {
+  assert.deepEqual(checkCv(tmpDir(), []), []);
 });
 
 test('parseTerms splits on semicolons and newlines', () => {

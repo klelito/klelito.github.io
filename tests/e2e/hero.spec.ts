@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { SITE, ui, featured, highlights, projectPath, type Locale } from './content';
+import { SITE, ui, featured, highlights, projectPath, projectsPath, type Locale } from './content';
 
 for (const locale of ['pl', 'en'] as Locale[]) {
   test(`command palette lists the featured case studies (${locale})`, async ({ page }) => {
@@ -25,12 +25,18 @@ test('both hero CTAs are fully visible on the first screen', async ({ page }) =>
   await page.goto('/');
   const viewport = page.viewportSize()!;
   const hero = page.locator('.hero');
-  const ctas = [
-    hero.getByRole('link', { name: ui.pl['cta.cv'], exact: true }),
-    hero.getByRole('link', { name: ui.pl['cta.talk'] }),
-  ];
-  await expect(ctas[0]).toHaveAttribute('href', SITE.cv.pl);
-  await expect(ctas[1]).toHaveAttribute('href', '#kontakt');
+  // With a CV configured: "Pobierz CV" + "Porozmawiajmy"; without (SITE.cv = null): "Porozmawiajmy" + projects list.
+  const ctas = SITE.cv
+    ? [hero.getByRole('link', { name: ui.pl['cta.cv'], exact: true }), hero.getByRole('link', { name: ui.pl['cta.talk'] })]
+    : [hero.getByRole('link', { name: ui.pl['cta.talk'] }), hero.getByRole('link', { name: ui.pl['projects.all'] })];
+  if (SITE.cv) {
+    await expect(ctas[0]).toHaveAttribute('href', SITE.cv.pl);
+    await expect(ctas[1]).toHaveAttribute('href', '#kontakt');
+  } else {
+    await expect(ctas[0]).toHaveAttribute('href', '#kontakt');
+    await expect(ctas[0]).toHaveClass(/btn-key/);
+    await expect(ctas[1]).toHaveAttribute('href', projectsPath('pl'));
+  }
   for (const cta of ctas) {
     const box = (await cta.boundingBox())!;
     expect(box.x).toBeGreaterThanOrEqual(0);

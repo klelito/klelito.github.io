@@ -51,9 +51,14 @@ const cvPrefix = s['cta.cv'].replace(/\s*CV$/, '');
 
     <div class="nav-actions">
       <LangSwitch locale={locale} path={path} />
-      <a class="cv-pill" href={SITE.cv[locale]} download>
-        <span class="cv-prefix">{cvPrefix}{' '}</span>{cvShort}
-      </a>
+      {
+        SITE.cv && (
+          <a class="cv-pill" href={SITE.cv[locale]} download>
+            <span class="cv-prefix">{cvPrefix}{' '}</span>
+            {cvShort}
+          </a>
+        )
+      }
       <details class="nav-menu">
         <summary>{s.menu}</summary>
         <ul class="nav-menu-panel" role="list">

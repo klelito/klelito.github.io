@@ -16,7 +16,13 @@ const s = t(locale);
     <h2 id="cta-band-title" class="section-title">{s['case.ctaTitle']}</h2>
     <div class="cta-actions">
       <a class="btn-key" href={`${homePath(locale)}#kontakt`}>{s['cta.talk']}</a>
-      <a class="btn-ghost" href={SITE.cv[locale]} download>{s['cta.cv']}</a>
+      {
+        SITE.cv && (
+          <a class="btn-ghost" href={SITE.cv[locale]} download>
+            {s['cta.cv']}
+          </a>
+        )
+      }
     </div>
   </div>
 </section>

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { SITE, ui } from './content';
+import { SITE, ui, projects, projectPath } from './content';
 
 test('head metadata per locale', async ({ page }) => {
   await page.goto('/en/');
@@ -19,13 +19,15 @@ test('language switch goes to the counterpart', async ({ page }) => {
 });
 
 test('CV pill downloads the locale CV', async ({ page }) => {
+  test.skip(!SITE.cv, 'no CV configured');
   await page.goto('/en/');
   const cv = page.getByRole('banner').getByRole('link', { name: ui.en['cta.cv'] });
-  await expect(cv).toHaveAttribute('href', SITE.cv.en);
+  await expect(cv).toHaveAttribute('href', SITE.cv!.en);
   await expect(cv).toHaveAttribute('download', '');
 });
 
 test('CV pill renders a space between its words on desktop', async ({ page }, testInfo) => {
+  test.skip(!SITE.cv, 'no CV configured');
   test.skip(testInfo.project.name === 'mobile', 'the prefix is visually hidden on mobile');
   await page.goto('/');
   const gap = await page.locator('.cv-pill').evaluate((a) => {
@@ -102,4 +104,14 @@ test('mobile menu closes after choosing a section and on Escape', async ({ brows
   await expect(menu).toHaveJSProperty('open', false);
   await expect(summary).toBeFocused();
   await ctx.close();
+});
+
+test('no CV download anywhere when the site has no CV (SITE.cv = null)', async ({ page }) => {
+  test.skip(SITE.cv !== null, 'a CV is configured');
+  for (const path of ['/', '/en/', '/projekty/', projectPath('pl', projects('pl')[0].slug)]) {
+    await page.goto(path);
+    await expect(page.locator('a[href$=".pdf"]'), path).toHaveCount(0);
+    await expect(page.getByRole('link', { name: ui.pl['cta.cv'] }), path).toHaveCount(0);
+    await expect(page.locator('.cv-pill'), path).toHaveCount(0);
+  }
 });

@@ -68,7 +68,8 @@ test('CTA band links to contact and the locale CV', async ({ page }) => {
   const band = page.locator('.cta-band');
   await expect(band.getByRole('heading')).toHaveText(en['case.ctaTitle']);
   await expect(band.getByRole('link', { name: en['cta.talk'] })).toHaveAttribute('href', `${homePath('en')}#kontakt`);
-  await expect(band.getByRole('link', { name: en['cta.cv'] })).toHaveAttribute('href', SITE.cv.en);
+  if (SITE.cv) await expect(band.getByRole('link', { name: en['cta.cv'] })).toHaveAttribute('href', SITE.cv.en);
+  else await expect(band.getByRole('link', { name: en['cta.cv'] })).toHaveCount(0);
 });
 
 test('language switch keeps the case study', async ({ page }) => {

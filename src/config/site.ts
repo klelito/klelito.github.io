@@ -1,9 +1,19 @@
-// Personal data of the site owner. Placeholder values until the owner provides the real ones (spec §9).
-export const SITE = {
-  url: 'https://example.github.io',
-  name: 'Imię Nazwisko',
-  email: 'kontakt@twojadomena.pl',
-  linkedin: 'https://www.linkedin.com/in/example',
-  github: 'https://github.com/example',
-  cv: { pl: '/cv/cv-pl.pdf', en: '/cv/cv-en.pdf' },
-} as const;
+// Personal data of the site owner.
+// `cv: null` hides every "Download CV" button; set { pl, en } paths under public/ to enable downloads.
+type CvLinks = { pl: string; en: string } | null;
+
+export const SITE: {
+  url: string;
+  name: string;
+  email: string;
+  linkedin: string;
+  github: string;
+  cv: CvLinks;
+} = {
+  url: 'https://klelito.github.io',
+  name: 'Kacper Lelito',
+  email: 'klelito.business@gmail.com',
+  linkedin: 'https://www.linkedin.com/in/kacper-lelito',
+  github: 'https://github.com/klelito',
+  cv: null,
+};

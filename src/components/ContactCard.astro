@@ -43,10 +43,18 @@ const s = t(locale);
     </li>
   </ul>
 
-  <div class="cvs">
-    <a class="btn-key" href={SITE.cv.pl} download hreflang="pl">{s['contact.cvPl']}</a>
-    <a class="btn-key" href={SITE.cv.en} download hreflang="en">{s['contact.cvEn']}</a>
-  </div>
+  {
+    SITE.cv && (
+      <div class="cvs">
+        <a class="btn-key" href={SITE.cv.pl} download hreflang="pl">
+          {s['contact.cvPl']}
+        </a>
+        <a class="btn-key" href={SITE.cv.en} download hreflang="en">
+          {s['contact.cvEn']}
+        </a>
+      </div>
+    )
+  }
 </div>
 
 <script>

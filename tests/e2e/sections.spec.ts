@@ -57,6 +57,11 @@ test('contact links: profiles and both CVs', async ({ page }) => {
   await expect(contact.getByRole('heading', { level: 2 })).toHaveText(en['contact.title']);
   await expect(contact.getByRole('link', { name: /LinkedIn/ })).toHaveAttribute('href', SITE.linkedin);
   await expect(contact.getByRole('link', { name: /GitHub/ })).toHaveAttribute('href', SITE.github);
+  if (!SITE.cv) {
+    await expect(contact.getByRole('link', { name: en['contact.cvPl'] })).toHaveCount(0);
+    await expect(contact.getByRole('link', { name: en['contact.cvEn'] })).toHaveCount(0);
+    return;
+  }
   for (const [name, href] of [
     [en['contact.cvPl'], SITE.cv.pl],
     [en['contact.cvEn'], SITE.cv.en],

@@ -2,7 +2,7 @@
 import Aurora from './Aurora.astro';
 import CommandPalette from './CommandPalette.astro';
 import MetricsStrip from './MetricsStrip.astro';
-import type { Locale } from '../i18n/routes';
+import { projectsPath, type Locale } from '../i18n/routes';
 import { t } from '../i18n/ui';
 import { SITE } from '../config/site';
 import type { Project, Highlight } from '../lib/content';
@@ -32,16 +32,32 @@ const s = t(locale);
     <p class="hero-subtitle on-aurora">{s['hero.subtitle']}</p>
 
     <div class="hero-ctas">
-      <a class="btn-key" href={SITE.cv[locale]} download>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path>
-        </svg>
-        {s['cta.cv']}
-      </a>
-      <a class="btn-ghost" href="#kontakt">
-        {s['cta.talk']}
-        <span aria-hidden="true">→</span>
-      </a>
+      {
+        SITE.cv ? (
+          <>
+            <a class="btn-key" href={SITE.cv[locale]} download>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+              </svg>
+              {s['cta.cv']}
+            </a>
+            <a class="btn-ghost" href="#kontakt">
+              {s['cta.talk']}
+              <span aria-hidden="true">→</span>
+            </a>
+          </>
+        ) : (
+          <>
+            <a class="btn-key" href="#kontakt">
+              {s['cta.talk']}
+            </a>
+            <a class="btn-ghost" href={projectsPath(locale)}>
+              {s['projects.all']}
+              <span aria-hidden="true">→</span>
+            </a>
+          </>
+        )
+      }
     </div>
 
     <CommandPalette locale={locale} projects={featured} />
