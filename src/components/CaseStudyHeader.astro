@@ -1,0 +1,177 @@
+---
+import Aurora from './Aurora.astro';
+import { projectsPath, type Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import type { Project } from '../lib/content';
+
+interface Props {
+  locale: Locale;
+  project: Project;
+}
+
+const { locale, project } = Astro.props;
+const s = t(locale);
+const { data } = project;
+const time = data.duration ? `${data.year} · ${data.duration}` : String(data.year);
+const repo = data.kind === 'own' ? data.links?.repo : undefined;
+const demo = data.kind === 'own' ? data.links?.demo : undefined;
+---
+
+<header class="cs-header">
+  <Aurora />
+  <div class="container cs-header-inner">
+    <div class="crumbs">
+      <a class="crumb mono" href={projectsPath(locale)}>
+        <span aria-hidden="true">←</span>
+        {s['case.back']}
+      </a>
+      <span class="crumb-sep mono" aria-hidden="true">/</span>
+      <span class="crumb-current mono overflow-safe">{data.title}</span>
+      <span class="chip">{data.kind === 'company' ? s['kind.company'] : s['kind.own']}</span>
+    </div>
+
+    <h1 class="cs-title overflow-safe">{data.title}</h1>
+    <p class="cs-lead">{data.summary}</p>
+
+    <dl class="meta">
+      <div class="meta-cell">
+        <dt class="mono">{s['case.role']}</dt>
+        <dd>{data.role}</dd>
+      </div>
+      <div class="meta-cell">
+        <dt class="mono">{s['case.time']}</dt>
+        <dd class="meta-time mono">{time}</dd>
+      </div>
+      <div class="meta-cell">
+        <dt class="mono">{s['case.stack']}</dt>
+        <dd>
+          <ul class="stack" role="list">
+            {data.stack.map((tech) => <li class="chip">{tech}</li>)}
+          </ul>
+        </dd>
+      </div>
+    </dl>
+
+    {
+      (repo || demo) && (
+        <div class="cs-links">
+          {repo && (
+            <a class="btn-ghost" href={repo}>
+              {s['projects.code']}
+              <span aria-hidden="true">↗</span>
+            </a>
+          )}
+          {demo && (
+            <a class="btn-ghost" href={demo}>
+              {s['projects.demo']}
+              <span aria-hidden="true">↗</span>
+            </a>
+          )}
+        </div>
+      )
+    }
+  </div>
+</header>
+
+<style>
+  .cs-header {
+    position: relative;
+    overflow: hidden;
+    padding: calc(var(--header-offset) + var(--space-6)) 0 var(--space-12);
+  }
+
+  .cs-header-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-8);
+    color: var(--color-muted);
+    font-size: var(--text-xs);
+  }
+
+  .crumb {
+    display: inline-flex;
+    gap: var(--space-2);
+    transition: color var(--duration-base) ease-out;
+  }
+
+  .crumb:hover {
+    color: var(--color-text);
+  }
+
+  .cs-title {
+    max-width: 48rem;
+    margin-bottom: var(--space-5);
+    font-size: clamp(2.5rem, 4vw + 1rem, 3.5rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+  }
+
+  .cs-lead {
+    max-width: 48rem;
+    margin-bottom: var(--space-10);
+    color: var(--color-muted);
+    font-size: var(--text-lg);
+  }
+
+  .meta {
+    display: grid;
+    max-width: 48rem;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-card);
+    background: var(--color-fill-faint);
+  }
+
+  .meta-cell {
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .meta-cell + .meta-cell {
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .meta dt {
+    margin-bottom: var(--space-2);
+    color: var(--color-muted);
+    font-size: var(--text-mono-sm);
+  }
+
+  .meta dd {
+    margin: 0;
+    font-size: var(--text-sm);
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+  }
+
+  .cs-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .meta {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .meta-cell + .meta-cell {
+      border-top: 0;
+      border-left: 1px solid var(--color-hairline);
+    }
+  }
+</style>

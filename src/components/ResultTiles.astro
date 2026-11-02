@@ -1,0 +1,58 @@
+---
+interface Props {
+  label: string;
+  results: { value: string; label: string }[];
+}
+
+const { label, results } = Astro.props;
+---
+
+<section class="container result-tiles" aria-label={label}>
+  <ul class="tiles" role="list">
+    {
+      results.map((r) => (
+        <li class="tile glass">
+          <span class="result-value overflow-safe">{r.value}</span>
+          <span class="result-label mono">{r.label}</span>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .result-tiles {
+    padding-bottom: var(--space-16);
+  }
+
+  .tiles {
+    display: grid;
+    gap: var(--space-4);
+    margin: 0;
+  }
+
+  .tile {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-6);
+  }
+
+  .result-value {
+    font-size: clamp(2.25rem, 3vw + 1rem, 3rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .result-label {
+    color: var(--color-muted);
+    font-size: var(--text-xs);
+  }
+
+  @media (min-width: 640px) {
+    .tiles {
+      grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    }
+  }
+</style>

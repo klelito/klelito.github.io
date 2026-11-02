@@ -1,6 +1,6 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import type { Locale } from '../i18n/routes';
-import { splitId } from './content-utils';
+import { splitId, adjacent } from './content-utils';
 
 export type Project = CollectionEntry<'projects'> & { slug: string };
 export type ExperienceItem = CollectionEntry<'experience'>;
@@ -20,6 +20,15 @@ export async function getProjects(locale: Locale): Promise<Project[]> {
 
 export async function getFeaturedProjects(locale: Locale): Promise<Project[]> {
   return (await getProjects(locale)).filter((p) => p.data.featured);
+}
+
+/** `getStaticPaths` result for the case study pages of one locale; prev/next wrap around `order`. */
+export async function caseStudyPaths(locale: Locale) {
+  const projects = await getProjects(locale);
+  return projects.map((project, i) => ({
+    params: { slug: project.slug },
+    props: { project, ...adjacent(projects, i) },
+  }));
 }
 
 /** Experience of one locale, newest first. */

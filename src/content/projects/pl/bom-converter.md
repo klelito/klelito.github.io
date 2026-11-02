@@ -13,6 +13,7 @@ results:
   - { value: "2 000+", label: pozycji BOM tygodniowo }
 featured: true
 order: 1
+diagram: /diagrams/bom-converter.pl.svg
 ---
 
 ## Kontekst

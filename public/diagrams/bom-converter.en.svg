@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="160" viewBox="0 0 700 160" fill="none" font-family="Geist Mono, ui-monospace, monospace">
+  <title>Architecture diagram: BOM Converter</title>
+  <g stroke="rgba(255,255,255,0.18)">
+    <rect x="8" y="40" width="110" height="64" rx="8"/>
+    <rect x="162" y="40" width="110" height="64" rx="8"/>
+    <rect x="478" y="40" width="110" height="64" rx="8"/>
+    <rect x="618" y="40" width="74" height="64" rx="8"/>
+  </g>
+  <rect x="316" y="36" width="118" height="72" rx="10" stroke="#ff6b4a" stroke-width="1.5" fill="rgba(255,47,58,0.08)"/>
+  <g stroke="rgba(255,107,74,0.6)" stroke-width="1.5" stroke-dasharray="4 3">
+    <path d="M122 72h34"/><path d="M276 72h34"/><path d="M438 72h34"/><path d="M592 72h20"/>
+  </g>
+  <g fill="rgba(255,107,74,0.8)">
+    <path d="M156 67l7 5-7 5z"/><path d="M310 67l7 5-7 5z"/><path d="M472 67l7 5-7 5z"/><path d="M612 67l7 5-7 5z"/>
+  </g>
+  <g fill="#9c9c9d" font-size="11" text-anchor="middle">
+    <text x="63" y="68">Customer file</text><text x="63" y="84" font-size="10">(XLSX/CSV)</text>
+    <text x="217" y="68">Parser &amp;</text><text x="217" y="84">normalizer</text>
+    <text x="533" y="68">ERP item</text><text x="533" y="84">master</text>
+    <text x="655" y="68">Quote</text><text x="655" y="84" font-size="10">report</text>
+  </g>
+  <text x="375" y="68" fill="#ffb347" font-size="11" text-anchor="middle">MPN</text>
+  <text x="375" y="84" fill="#ff6b4a" font-size="11" text-anchor="middle">matching</text>
+</svg>

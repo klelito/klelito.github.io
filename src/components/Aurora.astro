@@ -110,7 +110,10 @@ const grain =
   .aurora-vignette {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 85% 75% at 50% 35%, transparent 0%, var(--color-canvas) 88%);
+    /* radial vignette + a bottom fade so the section never ends on a hard edge */
+    background:
+      linear-gradient(to bottom, transparent 55%, var(--color-canvas) 100%),
+      radial-gradient(ellipse 85% 75% at 50% 35%, transparent 0%, var(--color-canvas) 88%);
   }
 
   @media (max-width: 767px) {

@@ -13,6 +13,7 @@ results:
   - { value: "2,000+", label: BOM lines per week }
 featured: true
 order: 1
+diagram: /diagrams/bom-converter.en.svg
 ---
 
 ## Context

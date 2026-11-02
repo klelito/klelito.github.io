@@ -50,6 +50,10 @@ const pl = {
   'case.prev': 'Poprzedni',
   'case.next': 'Następny',
   'case.ctaTitle': 'Masz podobny problem?',
+  'case.results': 'Wyniki',
+  'case.more': 'Więcej case studies',
+  'case.diagramAlt': 'Diagram architektury',
+  'case.diagramCaption': 'Diagram poglądowy — szczegóły zanonimizowane.',
   'footer.built': 'Zbudowane w Astro · Hostowane na GitHub Pages',
   'meta.homeTitle': 'Imię Nazwisko — inżynier automatyzacji produkcji',
   'meta.homeDescription':
@@ -110,6 +114,10 @@ const en: UiStrings = {
   'case.prev': 'Previous',
   'case.next': 'Next',
   'case.ctaTitle': 'Facing a similar problem?',
+  'case.results': 'Results',
+  'case.more': 'More case studies',
+  'case.diagramAlt': 'Architecture diagram',
+  'case.diagramCaption': 'Illustrative diagram — details anonymized.',
   'footer.built': 'Built with Astro · Hosted on GitHub Pages',
   'meta.homeTitle': 'Imię Nazwisko — manufacturing automation engineer',
   'meta.homeDescription':

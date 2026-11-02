@@ -1,0 +1,90 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  label: string;
+  headings: MarkdownHeading[];
+}
+
+const { label, headings } = Astro.props;
+const items = headings.filter((h) => h.depth === 2);
+---
+
+<nav class="toc" aria-label={label}>
+  <p class="toc-title mono" aria-hidden="true">{label}</p>
+  <ul role="list">
+    {
+      items.map((h) => (
+        <li>
+          <a class="toc-link" href={`#${h.slug}`}>
+            {h.text}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<script>
+  import '../scripts/toc-highlight';
+</script>
+
+<style>
+  .toc ul {
+    display: flex;
+    gap: var(--space-1);
+    margin: 0;
+    overflow-x: auto;
+  }
+
+  .toc-title {
+    display: none;
+    margin-bottom: var(--space-3);
+    color: var(--color-muted);
+    font-size: var(--text-mono-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .toc-link {
+    display: block;
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 2px solid transparent;
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    white-space: nowrap;
+    transition:
+      color var(--duration-base) ease-out,
+      border-color var(--duration-base) ease-out;
+  }
+
+  .toc-link:hover {
+    color: var(--color-text);
+  }
+
+  .toc-link[aria-current='true'] {
+    border-color: var(--color-coral);
+    color: var(--color-text);
+  }
+
+  @media (min-width: 1024px) {
+    .toc {
+      position: sticky;
+      top: calc(var(--header-offset) + var(--space-4));
+    }
+
+    .toc-title {
+      display: block;
+    }
+
+    .toc ul {
+      flex-direction: column;
+      overflow: visible;
+    }
+
+    .toc-link {
+      border-bottom: 0;
+      border-left: 2px solid var(--color-hairline);
+    }
+  }
+</style>

@@ -1,0 +1,149 @@
+---
+import type { MarkdownHeading } from 'astro';
+import BaseLayout from './BaseLayout.astro';
+import CaseStudyHeader from '../components/CaseStudyHeader.astro';
+import ResultTiles from '../components/ResultTiles.astro';
+import Toc from '../components/Toc.astro';
+import PrevNext from '../components/PrevNext.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { projectPath, type Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import type { Project } from '../lib/content';
+
+interface Props {
+  locale: Locale;
+  project: Project;
+  headings: MarkdownHeading[];
+  prev: Project;
+  next: Project;
+}
+
+const { locale, project, headings, prev, next } = Astro.props;
+const s = t(locale);
+const { data } = project;
+---
+
+<BaseLayout locale={locale} title={`${data.title} — ${s['meta.homeTitle']}`} description={data.summary} path={projectPath(locale, project.slug)}>
+  <CaseStudyHeader locale={locale} project={project} />
+  {data.results && <ResultTiles label={s['case.results']} results={data.results} />}
+
+  <div class="container cs-body">
+    <aside class="cs-toc">
+      <Toc label={s['case.toc']} headings={headings} />
+    </aside>
+    <article class="prose">
+      <slot />
+      {
+        data.diagram && (
+          <figure class="diagram glass">
+            <img src={data.diagram} alt={`${s['case.diagramAlt']}: ${data.title}`} width="700" height="160" loading="lazy" decoding="async" />
+            <figcaption class="mono">{s['case.diagramCaption']}</figcaption>
+          </figure>
+        )
+      }
+      {data.kind === 'company' && <p class="note glass">{s['case.confidential']}</p>}
+    </article>
+  </div>
+
+  <PrevNext locale={locale} prev={prev} next={next} />
+  <CtaBand locale={locale} />
+</BaseLayout>
+
+<style>
+  .cs-body {
+    display: grid;
+    gap: var(--space-10);
+    padding-bottom: var(--space-24);
+  }
+
+  .prose {
+    max-width: 45rem;
+    min-width: 0;
+  }
+
+  .prose :global(h2) {
+    margin: var(--space-12) 0 var(--space-4);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    scroll-margin-top: var(--header-offset);
+  }
+
+  .prose :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .prose :global(p),
+  .prose :global(li) {
+    color: var(--color-muted);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+
+  .prose :global(p + p),
+  .prose :global(p + ul),
+  .prose :global(ul + p) {
+    margin-top: var(--space-4);
+  }
+
+  .prose :global(ul) {
+    display: grid;
+    gap: var(--space-3);
+    margin: var(--space-5) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .prose :global(li) {
+    position: relative;
+    padding-left: var(--space-6);
+  }
+
+  .prose :global(li)::before {
+    content: '';
+    position: absolute;
+    top: 0.7em;
+    left: var(--space-1);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-coral);
+  }
+
+  .prose :global(strong) {
+    color: var(--color-text);
+  }
+
+  .diagram {
+    margin-top: var(--space-12);
+    padding: var(--space-5);
+    overflow-x: auto;
+  }
+
+  .diagram img {
+    width: 100%;
+    min-width: 32rem;
+    height: auto;
+  }
+
+  .diagram figcaption {
+    margin-top: var(--space-3);
+    color: var(--color-muted);
+    font-size: var(--text-mono-sm);
+    text-align: center;
+  }
+
+  .note {
+    margin-top: var(--space-12);
+    padding: var(--space-5) var(--space-6);
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+  }
+
+  @media (min-width: 1024px) {
+    .cs-body {
+      grid-template-columns: 12rem minmax(0, 1fr);
+      gap: var(--space-16);
+    }
+  }
+</style>

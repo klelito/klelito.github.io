@@ -1,0 +1,21 @@
+---
+// Case study body shared by `/projekty/<slug>/` and `/en/projects/<slug>/`.
+import { render } from 'astro:content';
+import CaseStudyLayout from '../layouts/CaseStudyLayout.astro';
+import type { Locale } from '../i18n/routes';
+import type { Project } from '../lib/content';
+
+interface Props {
+  locale: Locale;
+  project: Project;
+  prev: Project;
+  next: Project;
+}
+
+const { locale, project, prev, next } = Astro.props;
+const { Content, headings } = await render(project);
+---
+
+<CaseStudyLayout locale={locale} project={project} headings={headings} prev={prev} next={next}>
+  <Content />
+</CaseStudyLayout>
