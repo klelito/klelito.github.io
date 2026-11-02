@@ -26,11 +26,11 @@ const demo = data.kind === 'own' ? data.links?.demo : undefined;
         {s['case.back']}
       </a>
       <span class="crumb-sep mono" aria-hidden="true">/</span>
-      <span class="crumb-current mono overflow-safe">{data.title}</span>
+      <span class="crumb-current mono">{data.title}</span>
       <span class="chip">{data.kind === 'company' ? s['kind.company'] : s['kind.own']}</span>
     </div>
 
-    <h1 class="cs-title overflow-safe">{data.title}</h1>
+    <h1 class="cs-title">{data.title}</h1>
     <p class="cs-lead">{data.summary}</p>
 
     <dl class="meta">

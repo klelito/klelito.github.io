@@ -19,10 +19,10 @@ const demo = data.kind === 'own' ? data.links?.demo : undefined;
 <article class="project-card glass">
   <ProjectGlyph variant={data.order - 1} />
   <span class="chip kind">{data.kind === 'company' ? s['kind.company'] : s['kind.own']}</span>
-  <h3 class="title overflow-safe">{data.title}</h3>
+  <h3 class="title">{data.title}</h3>
   <p class="summary">{data.summary}</p>
   <p class="metric">
-    <span class="metric-value overflow-safe">{data.metric.value}</span>
+    <span class="metric-value">{data.metric.value}</span>
     <span class="metric-label mono">{data.metric.label}</span>
   </p>
   <ul class="stack" role="list">

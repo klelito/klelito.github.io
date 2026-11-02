@@ -16,11 +16,11 @@ const s = t(locale);
 <nav class="container prev-next" aria-label={s['case.more']}>
   <a class="pn-card glass" rel="prev" href={projectPath(locale, prev.slug)}>
     <span class="pn-dir mono"><span aria-hidden="true">← </span>{s['case.prev']}</span>
-    <span class="pn-title overflow-safe">{prev.data.title}</span>
+    <span class="pn-title">{prev.data.title}</span>
   </a>
   <a class="pn-card glass pn-next" rel="next" href={projectPath(locale, next.slug)}>
     <span class="pn-dir mono">{s['case.next']}<span aria-hidden="true"> →</span></span>
-    <span class="pn-title overflow-safe">{next.data.title}</span>
+    <span class="pn-title">{next.data.title}</span>
   </a>
 </nav>
 

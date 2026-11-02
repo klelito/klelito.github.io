@@ -35,7 +35,7 @@ const { data } = project;
       <slot />
       {
         data.diagram && (
-          <figure class="diagram glass">
+          <figure class="diagram glass" tabindex="0">
             <img src={data.diagram} alt={`${s['case.diagramAlt']}: ${data.title}`} width="700" height="160" loading="lazy" decoding="async" />
             <figcaption class="mono">{s['case.diagramCaption']}</figcaption>
           </figure>

@@ -12,7 +12,7 @@ const { label, results } = Astro.props;
     {
       results.map((r) => (
         <li class="tile glass">
-          <span class="result-value overflow-safe">{r.value}</span>
+          <span class="result-value">{r.value}</span>
           <span class="result-label mono">{r.label}</span>
         </li>
       ))

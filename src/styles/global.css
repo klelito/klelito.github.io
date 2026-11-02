@@ -31,6 +31,8 @@ body {
   margin: 0;
   min-height: 100vh;
   line-height: 1.6;
+  /* Long unbroken words (URLs, part numbers) wrap instead of running off a phone screen */
+  overflow-wrap: anywhere;
   overflow-x: clip;
 }
 
@@ -118,10 +120,6 @@ svg {
   color: var(--color-muted);
 }
 
-.overflow-safe {
-  overflow-wrap: anywhere;
-}
-
 /* ---------- Shared primitives ---------- */
 
 /* Tactile keycap button (primary CTA) */
@@ -186,12 +184,12 @@ svg {
   line-height: 1.6;
 }
 
-/* Dark-glass card */
+/* Dark-glass card. No backdrop-filter: cards sit on the flat canvas, where a blur is invisible
+   but each one still costs a compositing layer (Lighthouse TBT on mobile). */
 .glass {
   border: 1px solid var(--color-hairline);
   border-radius: var(--radius-card);
   background: var(--color-surface);
-  backdrop-filter: blur(8px);
 }
 
 /* Section heading with a faint warm glow */

@@ -18,8 +18,9 @@ const { locale, path } = Astro.props;
           {l.toUpperCase()}
         </span>
       ) : (
-        <a class="lang-option" href={switchLocalePath(path, l)} hreflang={l} lang={l} aria-label={t(locale)['lang.switchTo']}>
+        <a class="lang-option" href={switchLocalePath(path, l)} hreflang={l} lang={l}>
           {l.toUpperCase()}
+          <span class="sr-only"> — {t(locale)['lang.switchTo']}</span>
         </a>
       ),
     )
