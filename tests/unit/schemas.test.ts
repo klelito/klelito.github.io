@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { projectSchema, experienceSchema } from '../../src/content/schemas.ts';
+import { projectSchema, experienceSchema, collaborationItemSchema } from '../../src/content/schemas.ts';
 
 const companyProject = {
   title: 'Konwerter BOM',
@@ -42,4 +42,16 @@ test('more than 3 results are rejected', () => {
 test('experience accepts null end (current job)', () => {
   const parsed = experienceSchema.parse({ start: 2022, end: null, role: 'Inżynier', org: 'Firma z branży EMS', order: 1 });
   assert.equal(parsed.end, null);
+});
+
+test('bilingual text rejects stray keys (YAML commas split unquoted flow values)', () => {
+  // `{ pl: Skanery, etykiety, en: ... }` parses as { pl: 'Skanery', etykiety: null, en: ... }
+  const result = collaborationItemSchema.safeParse({
+    id: 'automation',
+    kind: 'service',
+    order: 3,
+    title: { pl: 'A', en: 'A' },
+    text: { pl: 'Skanery', etykiety: null, en: 'Scanners' },
+  });
+  assert.equal(result.success, false);
 });

@@ -1,11 +1,16 @@
 ---
-// Home page body shared by `/` and `/en/`.
+// Home page body shared by `/` and `/en/`. Section order follows spec §3.1.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import ProjectsSection from '../components/ProjectsSection.astro';
+import Timeline from '../components/Timeline.astro';
+import SkillGroup from '../components/SkillGroup.astro';
+import ServiceTile from '../components/ServiceTile.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import ContactCard from '../components/ContactCard.astro';
 import { homePath, type Locale } from '../i18n/routes';
 import { t } from '../i18n/ui';
-import { getFeaturedProjects, getHighlights } from '../lib/content';
+import { getFeaturedProjects, getHighlights, getExperience, getSkillGroups, getCollaboration } from '../lib/content';
 
 interface Props {
   locale: Locale;
@@ -13,10 +18,109 @@ interface Props {
 
 const { locale } = Astro.props;
 const s = t(locale);
-const [featured, highlights] = await Promise.all([getFeaturedProjects(locale), getHighlights()]);
+const [featured, highlights, experience, skills, collaboration] = await Promise.all([
+  getFeaturedProjects(locale),
+  getHighlights(),
+  getExperience(locale),
+  getSkillGroups(),
+  getCollaboration(),
+]);
 ---
 
 <BaseLayout locale={locale} title={s['meta.homeTitle']} description={s['meta.homeDescription']} path={homePath(locale)}>
   <Hero locale={locale} featured={featured} highlights={highlights} />
   <ProjectsSection locale={locale} projects={featured} />
+
+  <section id="doswiadczenie" class="section container" aria-labelledby="doswiadczenie-title">
+    <h2 id="doswiadczenie-title" class="section-title heading-gap">{s['experience.title']}</h2>
+    <Timeline locale={locale} items={experience} />
+  </section>
+
+  <section id="umiejetnosci" class="section container" aria-labelledby="umiejetnosci-title">
+    <h2 id="umiejetnosci-title" class="section-title heading-gap">{s['skills.title']}</h2>
+    <div class="grid-2">
+      {skills.map((group) => <SkillGroup locale={locale} group={group} />)}
+    </div>
+  </section>
+
+  <section id="wspolpraca" class="section container" aria-labelledby="wspolpraca-title">
+    <h2 id="wspolpraca-title" class="section-title">{s['collab.title']}</h2>
+    <p class="lead">{s['collab.lead']}</p>
+    <div class="grid-2">
+      {collaboration.services.map((item) => <ServiceTile locale={locale} item={item} />)}
+    </div>
+    <div class="process">
+      <ProcessSteps locale={locale} steps={collaboration.steps} />
+      <a class="btn-key" href="#kontakt">{s['cta.book']}</a>
+    </div>
+  </section>
+
+  <section id="kontakt" class="section container contact" aria-labelledby="kontakt-title">
+    <h2 id="kontakt-title" class="contact-title"><span class="accent">{s['contact.title']}</span></h2>
+    <p class="muted contact-reply">{s['contact.reply']}</p>
+    <ContactCard locale={locale} />
+  </section>
 </BaseLayout>
+
+<style>
+  .heading-gap {
+    margin-bottom: var(--space-12);
+  }
+
+  .lead {
+    max-width: 40rem;
+    margin: var(--space-4) 0 var(--space-12);
+    color: var(--color-muted);
+    font-size: var(--text-lg);
+  }
+
+  .grid-2 {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .process {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-10);
+    margin-top: var(--space-16);
+  }
+
+  .contact {
+    text-align: center;
+  }
+
+  .contact-title {
+    font-size: clamp(2.5rem, 4vw + 1rem, 3rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .accent {
+    background: var(--gradient-warm-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .contact-reply {
+    margin: var(--space-4) 0 var(--space-12);
+  }
+
+  .contact :global(.contact-card) {
+    text-align: left;
+  }
+
+  @media (min-width: 640px) {
+    .grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .process {
+      justify-items: center;
+    }
+  }
+</style>

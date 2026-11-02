@@ -1,0 +1,121 @@
+---
+import { render } from 'astro:content';
+import type { Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import type { ExperienceItem } from '../lib/content';
+
+interface Props {
+  locale: Locale;
+  items: ExperienceItem[];
+}
+
+const { locale, items } = Astro.props;
+const present = t(locale)['experience.present'];
+const rendered = await Promise.all(items.map(async (item) => ({ item, Content: (await render(item)).Content })));
+---
+
+<ol class="timeline" role="list">
+  {
+    rendered.map(({ item, Content }) => (
+      <li class="entry">
+        <span class="dot" aria-hidden="true" />
+        <article class="glass card">
+          <p class="period mono">
+            {item.data.start} — {item.data.end ?? present}
+          </p>
+          <h3 class="role">{item.data.role}</h3>
+          <p class="org">{item.data.org}</p>
+          <div class="achievements">
+            <Content />
+          </div>
+        </article>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .timeline {
+    position: relative;
+    display: grid;
+    gap: var(--space-6);
+    margin: 0;
+    padding-left: var(--space-8);
+  }
+
+  /* vertical hairline behind the dots */
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: var(--space-2);
+    bottom: var(--space-2);
+    left: 7px;
+    width: 1px;
+    background: var(--color-hairline);
+  }
+
+  .entry {
+    position: relative;
+  }
+
+  .dot {
+    position: absolute;
+    top: var(--space-6);
+    left: calc(-1 * var(--space-8));
+    width: 15px;
+    height: 15px;
+    border: 2px solid var(--color-coral);
+    border-radius: 50%;
+    background: var(--color-canvas);
+    box-shadow: 0 0 12px rgba(255, 107, 74, 0.45);
+  }
+
+  .card {
+    padding: var(--space-6);
+  }
+
+  .period {
+    color: var(--color-muted);
+    font-size: var(--text-xs);
+    letter-spacing: 0.02em;
+  }
+
+  .role {
+    margin: var(--space-2) 0 var(--space-1);
+    font-size: var(--text-xl);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .org {
+    margin-bottom: var(--space-5);
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+  }
+
+  .achievements :global(ul) {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .achievements :global(li) {
+    position: relative;
+    padding-left: var(--space-5);
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+  }
+
+  .achievements :global(li)::before {
+    content: '';
+    position: absolute;
+    top: 0.65em;
+    left: var(--space-1);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--color-coral);
+  }
+</style>

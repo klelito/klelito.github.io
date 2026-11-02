@@ -1,0 +1,58 @@
+---
+import Icon from './Icon.astro';
+import type { Locale } from '../i18n/routes';
+import type { SkillGroup } from '../lib/content';
+
+interface Props {
+  locale: Locale;
+  group: SkillGroup;
+}
+
+const { locale, group } = Astro.props;
+---
+
+<article class="skill-group glass">
+  <div class="head">
+    <span class="icon"><Icon name={group.icon} /></span>
+    <h3>{group.label[locale]}</h3>
+  </div>
+  <ul class="items" role="list">
+    {group.items.map((item) => <li class="chip">{item}</li>)}
+  </ul>
+</article>
+
+<style>
+  .skill-group {
+    padding: var(--space-6);
+  }
+
+  .head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+  }
+
+  .icon {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid var(--color-warm-tint);
+    border-radius: var(--radius-key);
+    background: var(--color-fill-subtle);
+    color: var(--color-coral);
+  }
+
+  h3 {
+    font-size: var(--text-base);
+    font-weight: 600;
+  }
+
+  .items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+  }
+</style>

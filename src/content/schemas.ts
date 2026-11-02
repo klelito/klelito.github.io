@@ -1,8 +1,9 @@
 // Zod schemas for all content. Imports only `astro/zod` so unit tests can load it under plain Node.
 import { z } from 'astro/zod';
 
-const bilingual = z.object({ pl: z.string(), en: z.string() });
-const valueLabel = z.object({ value: z.string(), label: z.string() });
+// Strict: an unquoted comma inside a YAML flow mapping (`{ pl: a, b, en: c }`) yields a stray key — fail loudly.
+const bilingual = z.strictObject({ pl: z.string(), en: z.string() });
+const valueLabel = z.strictObject({ value: z.string(), label: z.string() });
 
 export const projectSchema = z
   .object({

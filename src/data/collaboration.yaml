@@ -1,36 +1,37 @@
 # PRZYKŁADOWE DANE — do podmiany (spec §9)
+# Quote every text value: an unquoted comma inside { } splits the value into a new key.
 - id: erp
   kind: service
   order: 1
-  title: { pl: Integracje z SAP Business One, en: SAP Business One integrations }
-  text: { pl: Spójne dane między ERP a halą produkcyjną., en: Consistent data between the ERP and the shop floor. }
+  title: { pl: "Integracje z SAP Business One", en: "SAP Business One integrations" }
+  text: { pl: "Spójne dane między ERP a halą produkcyjną.", en: "Consistent data between the ERP and the shop floor." }
 - id: internal-tools
   kind: service
   order: 2
-  title: { pl: Narzędzia wewnętrzne i panele webowe, en: Internal tools and web dashboards }
-  text: { pl: Aplikacje szyte na miarę procesu, nie odwrotnie., en: Apps built around your process, not the other way round. }
+  title: { pl: "Narzędzia wewnętrzne i panele webowe", en: "Internal tools and web dashboards" }
+  text: { pl: "Aplikacje szyte na miarę procesu, nie odwrotnie.", en: "Apps built around your process, not the other way round." }
 - id: automation
   kind: service
   order: 3
-  title: { pl: Automatyzacja magazynu i produkcji, en: Warehouse and production automation }
-  text: { pl: Skanery, etykiety, przesunięcia bez papieru., en: Scanners, labels, paperless transfers. }
+  title: { pl: "Automatyzacja magazynu i produkcji", en: "Warehouse and production automation" }
+  text: { pl: "Skanery, etykiety, przesunięcia bez papieru.", en: "Scanners, labels, paperless transfers." }
 - id: data
   kind: service
   order: 4
-  title: { pl: Porządkowanie danych, en: Data clean-up }
-  text: { pl: BOM, kartoteki, raporty, które się zgadzają., en: BOMs, item masters and reports that add up. }
+  title: { pl: "Porządkowanie danych", en: "Data clean-up" }
+  text: { pl: "BOM, kartoteki, raporty, które się zgadzają.", en: "BOMs, item masters and reports that add up." }
 - id: talk
   kind: step
   order: 1
-  title: { pl: Rozmowa, en: Call }
-  text: { pl: 30 minut, bez zobowiązań, en: 30 minutes, no commitment }
+  title: { pl: "Rozmowa", en: "Call" }
+  text: { pl: "30 minut, bez zobowiązań", en: "30 minutes, no commitment" }
 - id: spec
   kind: step
   order: 2
-  title: { pl: Specyfikacja i wycena, en: Scope and quote }
-  text: { pl: Konkretny zakres i termin, en: A clear scope and timeline }
+  title: { pl: "Specyfikacja i wycena", en: "Scope and quote" }
+  text: { pl: "Konkretny zakres i termin", en: "A clear scope and timeline" }
 - id: delivery
   kind: step
   order: 3
-  title: { pl: Wdrożenie, en: Delivery }
-  text: { pl: Iteracyjnie, z demo co tydzień, en: Iterative, with a demo every week }
+  title: { pl: "Wdrożenie", en: "Delivery" }
+  text: { pl: "Iteracyjnie, z demo co tydzień", en: "Iterative, with a demo every week" }

@@ -1,0 +1,49 @@
+---
+import Icon from './Icon.astro';
+import type { Locale } from '../i18n/routes';
+import type { CollaborationItem } from '../lib/content';
+
+interface Props {
+  locale: Locale;
+  item: CollaborationItem;
+}
+
+const { locale, item } = Astro.props;
+// Services carry no icon field; decorative icons follow their order.
+const ICONS = ['link', 'layout', 'scan', 'table'];
+---
+
+<article class="service glass">
+  <span class="icon"><Icon name={ICONS[(item.order - 1) % ICONS.length]} /></span>
+  <h3>{item.title[locale]}</h3>
+  <p>{item.text[locale]}</p>
+</article>
+
+<style>
+  .service {
+    padding: var(--space-6);
+  }
+
+  .icon {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    margin-bottom: var(--space-4);
+    border: 1px solid var(--color-warm-tint);
+    border-radius: var(--radius-key);
+    background: var(--color-fill-subtle);
+    color: var(--color-coral);
+  }
+
+  h3 {
+    margin-bottom: var(--space-2);
+    font-size: var(--text-base);
+    font-weight: 600;
+  }
+
+  p {
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+  }
+</style>
