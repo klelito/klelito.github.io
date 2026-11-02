@@ -1,0 +1,48 @@
+<!doctype html>
+<!-- Open Graph card template (1200×630). Filled and rendered by scripts/make-og.mjs. -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../node_modules/@fontsource-variable/inter/index.css" />
+    <link rel="stylesheet" href="../node_modules/@fontsource/geist-mono/400.css" />
+    <style>
+      * { box-sizing: border-box; margin: 0; }
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        position: relative;
+        background: #07080a;
+        color: #fff;
+        font-family: 'Inter Variable', sans-serif;
+      }
+      .blade { position: absolute; border-radius: 50%; mix-blend-mode: screen; }
+      .b1 { top: -55%; left: -10%; width: 70%; height: 150%; transform: rotate(-25deg);
+            background: radial-gradient(closest-side, rgba(255,47,58,.85), rgba(255,107,74,.4) 55%, transparent); }
+      .b2 { top: -40%; right: -15%; width: 65%; height: 150%; transform: rotate(20deg);
+            background: radial-gradient(closest-side, rgba(255,107,74,.8), rgba(255,179,71,.35) 55%, transparent); }
+      .vignette { position: absolute; inset: 0;
+            background: radial-gradient(ellipse 80% 75% at 50% 30%, transparent 0%, #07080a 85%); }
+      .content { position: relative; z-index: 1; height: 100%; padding: 72px 88px;
+            display: flex; flex-direction: column; justify-content: space-between; }
+      .brand { display: flex; align-items: center; gap: 14px; font-size: 26px; font-weight: 500; }
+      h1 { font-size: 68px; font-weight: 600; line-height: 1.08; letter-spacing: -0.025em; max-width: 980px; }
+      .accent { background: linear-gradient(90deg, #ffb347, #ff6b4a, #ff2f3a);
+            -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .eyebrow { font-family: 'Geist Mono', monospace; font-size: 22px; color: #9c9c9d; }
+    </style>
+  </head>
+  <body>
+    <div class="blade b1"></div>
+    <div class="blade b2"></div>
+    <div class="vignette"></div>
+    <div class="content">
+      <div class="brand">
+        <svg width="26" height="26" viewBox="0 0 14 14"><defs><linearGradient id="g" x1="0" y1="0" x2="14" y2="14" gradientUnits="userSpaceOnUse"><stop stop-color="#ffb347"/><stop offset=".5" stop-color="#ff6b4a"/><stop offset="1" stop-color="#ff2f3a"/></linearGradient></defs><path d="M7 1 13 7 7 13 1 7Z" fill="url(#g)"/></svg>
+        <span data-slot="name"></span>
+      </div>
+      <h1><span data-slot="before"></span> <span class="accent" data-slot="accent"></span> <span data-slot="after"></span></h1>
+      <p class="eyebrow" data-slot="eyebrow"></p>
+    </div>
+  </body>
+</html>

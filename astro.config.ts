@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 import { SITE } from './src/config/site';
 
 export default defineConfig({
@@ -11,4 +12,10 @@ export default defineConfig({
       prefixDefaultLocale: false,
     },
   },
+  integrations: [
+    sitemap({
+      filter: (page) => !page.includes('/404'),
+      i18n: { defaultLocale: 'pl', locales: { pl: 'pl-PL', en: 'en-US' } },
+    }),
+  ],
 });
