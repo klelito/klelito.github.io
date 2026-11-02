@@ -1,13 +1,13 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { t } from '../i18n/ui';
+
+const locale = 'pl';
+const s = t(locale);
 ---
 
-<html lang="pl">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Portfolio</title>
-  </head>
-  <body>
-    <h1>Portfolio</h1>
-  </body>
-</html>
+<BaseLayout locale={locale} title={s['meta.homeTitle']} description={s['meta.homeDescription']} path="/">
+  <section class="container section">
+    <h1>{s['meta.homeTitle']}</h1>
+  </section>
+</BaseLayout>

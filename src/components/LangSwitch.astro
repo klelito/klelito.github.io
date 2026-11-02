@@ -1,0 +1,57 @@
+---
+import { LOCALES, switchLocalePath, type Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  path: string;
+}
+
+const { locale, path } = Astro.props;
+---
+
+<div class="lang" role="group" aria-label="Język / Language">
+  {
+    LOCALES.map((l) =>
+      l === locale ? (
+        <span class="lang-option is-current" aria-current="true">
+          {l.toUpperCase()}
+        </span>
+      ) : (
+        <a class="lang-option" href={switchLocalePath(path, l)} hreflang={l} lang={l} aria-label={t(locale)['lang.switchTo']}>
+          {l.toUpperCase()}
+        </a>
+      ),
+    )
+  }
+</div>
+
+<style>
+  .lang {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+  }
+
+  .lang-option {
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-pill);
+    color: var(--color-muted);
+    line-height: 1.4;
+    transition: color var(--duration-base) ease-out;
+  }
+
+  a.lang-option:hover {
+    color: var(--color-text);
+  }
+
+  .is-current {
+    background: var(--color-fill-active);
+    color: var(--color-text);
+    font-weight: 500;
+  }
+</style>
