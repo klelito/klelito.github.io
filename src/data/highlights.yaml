@@ -1,0 +1,17 @@
+# PRZYKŁADOWE DANE — do podmiany (spec §9)
+- id: tools
+  order: 1
+  value: "6+"
+  label: { pl: wdrożonych narzędzi, en: tools shipped }
+- id: technologies
+  order: 2
+  value: "5"
+  label: { pl: technologii w produkcji, en: technologies in production }
+- id: bom
+  order: 3
+  value: "−70%"
+  label: { pl: czasu przygotowania BOM, en: BOM preparation time }
+- id: erp
+  order: 4
+  value: "1"
+  label: { pl: źródło prawdy w ERP, en: source of truth in the ERP }

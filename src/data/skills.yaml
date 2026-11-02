@@ -1,0 +1,21 @@
+# PRZYKŁADOWE DANE — do podmiany (spec §9)
+- id: backend
+  order: 1
+  icon: server
+  label: { pl: Backend i web, en: Backend & web }
+  items: [PHP, Python, Django, FastAPI, JavaScript]
+- id: desktop
+  order: 2
+  icon: terminal
+  label: { pl: Desktop i terminale, en: Desktop & terminals }
+  items: [C#, .NET, VB.NET]
+- id: data
+  order: 3
+  icon: database
+  label: { pl: Dane i ERP, en: Data & ERP }
+  items: [SAP Business One, MS SQL, MySQL, SQLite]
+- id: devops
+  order: 4
+  icon: container
+  label: { pl: DevOps i narzędzia, en: DevOps & tooling }
+  items: [Docker, Git, PowerShell, GitHub Actions]
