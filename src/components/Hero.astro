@@ -1,0 +1,145 @@
+---
+import Aurora from './Aurora.astro';
+import CommandPalette from './CommandPalette.astro';
+import MetricsStrip from './MetricsStrip.astro';
+import type { Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { SITE } from '../config/site';
+import type { Project, Highlight } from '../lib/content';
+
+interface Props {
+  locale: Locale;
+  featured: Project[];
+  highlights: Highlight[];
+}
+
+const { locale, featured, highlights } = Astro.props;
+const s = t(locale);
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <Aurora />
+  <div class="container hero-inner">
+    <p class="eyebrow">
+      <span class="eyebrow-dot" aria-hidden="true"></span>
+      <span class="mono">{s['hero.eyebrow']}</span>
+    </p>
+
+    <h1 id="hero-title" class="hero-title">
+      {s['hero.titleBefore']}{' '}<span class="accent">{s['hero.titleAccent']}</span>{' '}{s['hero.titleAfter']}
+    </h1>
+
+    <p class="hero-subtitle">{s['hero.subtitle']}</p>
+
+    <div class="hero-ctas">
+      <a class="btn-key" href={SITE.cv[locale]} download>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path>
+        </svg>
+        {s['cta.cv']}
+      </a>
+      <a class="btn-ghost" href="#kontakt">
+        {s['cta.talk']}
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <CommandPalette locale={locale} projects={featured} />
+  </div>
+</section>
+
+<MetricsStrip locale={locale} highlights={highlights} />
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: calc(var(--header-offset) + var(--space-6)) 0 var(--space-12);
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 56rem;
+    text-align: center;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+    padding: 0.375rem 0.875rem;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-pill);
+    background: var(--color-fill-subtle);
+    color: var(--color-muted);
+    font-size: var(--text-xs);
+    letter-spacing: 0.02em;
+  }
+
+  .eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-coral);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    50% {
+      opacity: 0.35;
+    }
+  }
+
+  .hero-title {
+    max-width: 48rem;
+    margin-bottom: var(--space-5);
+    font-size: var(--text-h1);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+  }
+
+  .accent {
+    background: var(--gradient-warm-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero-subtitle {
+    max-width: 40rem;
+    margin-bottom: var(--space-8);
+    color: var(--color-muted);
+    font-size: var(--text-lg);
+    line-height: 1.6;
+  }
+
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-12);
+  }
+
+  @media (max-width: 767px) {
+    .hero {
+      padding-top: calc(var(--header-offset) + var(--space-2));
+    }
+
+    .hero-subtitle {
+      font-size: var(--text-base);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .eyebrow-dot {
+      animation: none;
+    }
+  }
+</style>

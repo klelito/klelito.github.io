@@ -1,0 +1,167 @@
+---
+import { projectPath, type Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import type { Project } from '../lib/content';
+
+interface Props {
+  locale: Locale;
+  projects: Project[];
+}
+
+const { locale, projects } = Astro.props;
+const s = t(locale);
+
+// Decorative row icons, cycled by position (stroke paths, 24×24 viewBox).
+const ICONS = [
+  'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M16 13H8M16 17H8',
+  'M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM3 9h18M9 21V9',
+  'M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10',
+  'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zM12 6v6l4 2',
+];
+---
+
+<nav class="palette" aria-label="Case studies">
+  <div class="palette-search" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+    <span class="palette-query mono">{s['palette.query']}<span class="palette-caret"></span></span>
+    <span class="chip">Case studies</span>
+  </div>
+
+  <ul class="palette-list" role="list">
+    {
+      projects.map((project, i) => (
+        <li>
+          <a class="palette-row" href={projectPath(locale, project.slug)} data-active={i === 0 ? '' : undefined}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d={ICONS[i % ICONS.length]} />
+            </svg>
+            <span class="palette-label">
+              open <span class="mono palette-arg">{project.slug}</span>
+              <span class="sr-only">: {project.data.title}</span>
+            </span>
+            <kbd class="chip" aria-hidden="true">⌘{i + 1}</kbd>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="palette-hint mono" aria-hidden="true">{s['palette.hint']}</p>
+</nav>
+
+<style>
+  .palette {
+    width: 100%;
+    max-width: 36rem;
+    margin-inline: auto;
+    overflow: hidden;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    backdrop-filter: blur(24px);
+    box-shadow: var(--shadow-palette);
+    text-align: left;
+  }
+
+  .palette-search {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-hairline);
+    color: var(--color-muted);
+  }
+
+  .palette-query {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    color: var(--color-text);
+    font-size: var(--text-sm);
+  }
+
+  .palette-caret {
+    display: inline-block;
+    width: 2px;
+    height: 1rem;
+    margin-left: 2px;
+    background: var(--color-coral);
+    animation: caret-blink 1.1s steps(1) infinite;
+  }
+
+  @keyframes caret-blink {
+    0%,
+    50% {
+      opacity: 1;
+    }
+    51%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .palette-list {
+    display: grid;
+    gap: 2px;
+    margin: 0;
+    padding: var(--space-2) var(--space-2);
+  }
+
+  .palette-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 0.625rem var(--space-3);
+    border: 1px solid transparent;
+    border-radius: var(--radius-key);
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    transition:
+      background var(--duration-base) ease-out,
+      color var(--duration-base) ease-out;
+  }
+
+  .palette-row:hover {
+    background: var(--color-fill-faint);
+    color: var(--color-text);
+  }
+
+  .palette-row[data-active] {
+    border-color: var(--color-warm-tint);
+    background: var(--gradient-warm-row);
+    color: var(--color-text);
+  }
+
+  .palette-row[data-active] svg,
+  .palette-row[data-active] .palette-arg {
+    color: var(--color-coral);
+  }
+
+  .palette-label {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .palette-row kbd {
+    flex: none;
+  }
+
+  .palette-hint {
+    padding: 0.625rem var(--space-4);
+    border-top: 1px solid var(--color-hairline);
+    background: var(--color-fill-faint);
+    color: var(--color-muted);
+    font-size: var(--text-mono-sm);
+    letter-spacing: 0.02em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .palette-caret {
+      animation: none;
+    }
+  }
+</style>

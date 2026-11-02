@@ -1,0 +1,132 @@
+---
+// Living warm aurora behind the hero. Radial gradients (no large-layer blur filters), static grain,
+// keyframes on transform/opacity only. Each blade's resting style equals its 0% "full bloom" keyframe,
+// so prefers-reduced-motion simply removes the animation.
+const grain =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
+---
+
+<div class="aurora" aria-hidden="true" style={`--grain: ${grain}`}>
+  <div class="aurora-blade blade-1"></div>
+  <div class="aurora-blade blade-2"></div>
+  <div class="aurora-blade blade-3"></div>
+  <div class="aurora-grain"></div>
+  <div class="aurora-vignette"></div>
+</div>
+
+<style>
+  .aurora {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .aurora-blade {
+    position: absolute;
+    border-radius: 50%;
+    mix-blend-mode: screen;
+    will-change: transform, opacity;
+  }
+
+  .blade-1 {
+    top: -35%;
+    left: -5%;
+    width: 60%;
+    height: 140%;
+    background: radial-gradient(closest-side, rgba(255, 47, 58, 0.9), rgba(255, 107, 74, 0.45) 55%, transparent);
+    opacity: 0.7;
+    transform: rotate(-25deg);
+    animation: drift-1 18s ease-in-out infinite;
+  }
+
+  .blade-2 {
+    top: -25%;
+    right: -10%;
+    width: 60%;
+    height: 140%;
+    background: radial-gradient(closest-side, rgba(255, 107, 74, 0.85), rgba(255, 179, 71, 0.4) 55%, transparent);
+    opacity: 0.65;
+    transform: rotate(20deg);
+    animation: drift-2 22s ease-in-out infinite;
+  }
+
+  .blade-3 {
+    bottom: -45%;
+    left: 22%;
+    width: 52%;
+    height: 110%;
+    background: radial-gradient(closest-side, rgba(255, 179, 71, 0.75), rgba(255, 107, 74, 0.3) 55%, transparent);
+    opacity: 0.55;
+    transform: rotate(-10deg);
+    animation: drift-3 16s ease-in-out infinite;
+  }
+
+  @keyframes drift-1 {
+    0%,
+    100% {
+      transform: rotate(-25deg) translate(0, 0) scale(1);
+      opacity: 0.7;
+    }
+    50% {
+      transform: rotate(-18deg) translate(4%, 6%) scale(1.08);
+      opacity: 0.45;
+    }
+  }
+
+  @keyframes drift-2 {
+    0%,
+    100% {
+      transform: rotate(20deg) translate(0, 0) scale(1);
+      opacity: 0.65;
+    }
+    50% {
+      transform: rotate(28deg) translate(-5%, 4%) scale(1.1);
+      opacity: 0.4;
+    }
+  }
+
+  @keyframes drift-3 {
+    0%,
+    100% {
+      transform: rotate(-10deg) translate(0, 0) scale(1);
+      opacity: 0.55;
+    }
+    50% {
+      transform: rotate(-4deg) translate(3%, -5%) scale(1.06);
+      opacity: 0.3;
+    }
+  }
+
+  .aurora-grain {
+    position: absolute;
+    inset: 0;
+    background-image: var(--grain);
+    opacity: 0.12;
+    mix-blend-mode: overlay;
+  }
+
+  .aurora-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 85% 75% at 50% 35%, transparent 0%, var(--color-canvas) 88%);
+  }
+
+  @media (max-width: 767px) {
+    .blade-3 {
+      display: none;
+    }
+
+    .blade-1,
+    .blade-2 {
+      width: 90%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aurora-blade {
+      animation: none;
+    }
+  }
+</style>

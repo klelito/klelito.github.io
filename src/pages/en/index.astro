@@ -1,13 +1,14 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
 import { t } from '../../i18n/ui';
+import { getFeaturedProjects, getHighlights } from '../../lib/content';
 
 const locale = 'en';
 const s = t(locale);
+const [featured, highlights] = await Promise.all([getFeaturedProjects(locale), getHighlights()]);
 ---
 
 <BaseLayout locale={locale} title={s['meta.homeTitle']} description={s['meta.homeDescription']} path="/en/">
-  <section class="container section">
-    <h1>{s['meta.homeTitle']}</h1>
-  </section>
+  <Hero locale={locale} featured={featured} highlights={highlights} />
 </BaseLayout>
