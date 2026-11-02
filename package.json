@@ -10,7 +10,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check",
+    "check": "astro check && node scripts/check-translations.mjs && node scripts/check-cv.mjs && node scripts/check-confidential.mjs",
     "test:unit": "node --test \"tests/unit/**/*.test.*\"",
     "test:e2e": "playwright test",
     "ci": "npm run check && npm run test:unit && npm run build && npm run test:e2e"
@@ -22,6 +22,7 @@
     "@astrojs/check": "^0.9.12",
     "@playwright/test": "^1.64.1",
     "@types/node": "^26.6.6",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "yaml": "^2.9.1"
   }
 }
