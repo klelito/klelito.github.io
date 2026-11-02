@@ -62,12 +62,13 @@ Zasady, których pilnuje build (złamanie = błąd):
 Repozytorium jest **publiczne** (wymóg darmowego GitHub Pages), więc cała treść jest jawna.
 
 - Projekty firmowe: bez nazwy firmy, klientów, nazw serwerów i baz, loginów, prawdziwych zrzutów ekranu — tylko opisy, diagramy i makiety.
-- **Strażnik poufności** (`scripts/check-confidential.mjs`) blokuje build, gdy w `src/`, `public/`, `docs/`, `.superdesign/` lub `README.md` pojawi się fraza z Twojej listy (wielkość liter bez znaczenia). W logach podaje plik, linię i **numer** frazy — nigdy samą frazę.
+- **Strażnik poufności** (`scripts/check-confidential.mjs`) blokuje build, gdy w którymkolwiek pliku tekstowym repozytorium (śledzonym lub nowym) albo w **nazwie pliku** pojawi się fraza z Twojej listy. Łapie to, co *wyświetli się* jako fraza: inną wielkość liter, frazę przełamaną między liniami, twardą spację, encje (`&amp;`, `&nbsp;`), etykiety SVG rozbite na kilka `<text>` i różne formy Unicode polskich znaków. W logach podaje plik, linię i **numer** frazy — nigdy samą frazę — oraz podsumowanie `N term(s), M files, K hits`.
 - Lista fraz **nigdy nie trafia do repozytorium**:
   - w GitHub: *Settings → Secrets and variables → Actions → New repository secret*, nazwa `CONFIDENTIAL_TERMS`, wartość np. `Nazwa Firmy; nazwa-serwera; nazwa_bazy; login`;
-  - lokalnie: zapisz frazy w pliku **poza** repozytorium (jedna na linię) i uruchamiaj
-    `CONFIDENTIAL_TERMS_FILE=/sciezka/poza/repo/terms.txt npm run check`.
-- Bez listy fraz lokalny `check` tylko ostrzega; w CI kończy się błędem.
+  - lokalnie: zapisz frazy w pliku **poza** repozytorium (jedna na linię; UTF-8 lub UTF-16 z BOM — domyślny zapis PowerShella też działa) i ustaw zmienną na stałe, np. w PowerShellu:
+    `[Environment]::SetEnvironmentVariable('CONFIDENTIAL_TERMS_FILE', 'C:\bezpieczne\terms.txt', 'User')`.
+- Bez listy fraz lokalny `check` tylko ostrzega; w CI kończy się błędem. Pusta lista lub źle zakodowany plik to zawsze błąd.
+- **Zalecane:** `npm run hooks:install` włącza hook `pre-push`, który uruchamia strażnika **przed** wysłaniem zmian do publicznego repozytorium (CI sprawdza dopiero po pushu, gdy treść jest już jawna w historii). Hook wymaga ustawionego `CONFIDENTIAL_TERMS_FILE`; awaryjnie `git push --no-verify`.
 
 ## Publikacja (jednorazowa konfiguracja)
 

@@ -6,7 +6,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { checkTranslations } from '../../scripts/check-translations.mjs';
 import { checkCv } from '../../scripts/check-cv.mjs';
-import { parseTerms, findConfidential } from '../../scripts/check-confidential.mjs';
+import { parseTerms, findConfidential, readTermsFile } from '../../scripts/check-confidential.mjs';
 
 function tmpDir() {
   return fs.mkdtempSync(path.join(os.tmpdir(), 'portfolio-checks-'));
@@ -114,4 +114,122 @@ test('check-confidential CLI fails in CI when no terms are configured', () => {
   const res = spawnSync(process.execPath, ['scripts/check-confidential.mjs'], { env, encoding: 'utf8' });
   assert.equal(res.status, 1);
   assert.match(res.stderr, /CONFIDENTIAL_TERMS is not set/);
+});
+
+// --- Final-review findings: terms that render on the page must be caught however the source spells them ---
+
+function hitsIn(files, terms) {
+  const root = tmpDir();
+  for (const [rel, content] of Object.entries(files)) write(root, rel, content);
+  return { root, hits: findConfidential([root], terms) };
+}
+
+test('findConfidential catches a term wrapped across two lines', () => {
+  const { hits } = hitsIn({ 'a.md': 'intro\nPraca dla Acme\nCorp w 2024\n' }, ['Acme Corp']);
+  assert.equal(hits.length, 1);
+  assert.equal(hits[0].line, 2);
+});
+
+test('findConfidential catches a term separated by a non-breaking space or &nbsp;', () => {
+  const { hits } = hitsIn({ 'a.md': 'Klient: Acme\u00a0Corp\n', 'b.html': '<p>Acme&nbsp;Corp</p>\n' }, ['Acme Corp']);
+  assert.deepEqual(hits.map((h) => path.basename(h.file)).sort(), ['a.md', 'b.html']);
+});
+
+test('findConfidential matches across Unicode normalization forms', () => {
+  const nfd = 'Zakład Łódź'.normalize('NFD');
+  const { hits } = hitsIn({ 'a.md': `Klient: ${nfd}\n` }, ['zakład łódź'.normalize('NFC')]);
+  assert.equal(hits.length, 1);
+});
+
+test('findConfidential catches a label split across SVG <text> elements and XML entities', () => {
+  const { hits } = hitsIn(
+    {
+      'split.svg': '<svg><text x="1" y="2">Acme</text><text x="1" y="3">Corp</text></svg>\n',
+      'amp.svg': '<svg><text>Smith &amp; Sons</text></svg>\n',
+    },
+    ['Acme Corp', 'Smith & Sons'],
+  );
+  assert.deepEqual(hits.map((h) => `${path.basename(h.file)}:${h.term}`).sort(), ['amp.svg:Smith & Sons', 'split.svg:Acme Corp']);
+});
+
+test('findConfidential scans any text file, skips binaries, and checks file names', () => {
+  const { root, hits } = hitsIn(
+    {
+      'public/demo/sample.csv': 'part;customer\nR1;Acme Corp\n',
+      'src/scripts/x.js': 'const c = "Acme Corp";\n',
+      'tests/e2e/leak.spec.ts': "expect(page).not.toContainText('Acme Corp');\n",
+      'LICENSE': 'Copyright Acme Corp\n',
+      'src/content/projects/pl/acme-corp-portal.md': 'clean body\n',
+    },
+    ['Acme Corp'],
+  );
+  fs.writeFileSync(path.join(root, 'public', 'img.png'), Buffer.concat([Buffer.from([0x89, 0x50, 0x00, 0x00]), Buffer.from('Acme Corp')]));
+  const all = findConfidential([root], ['Acme Corp']).map((h) => path.relative(root, h.file).split(path.sep).join('/')).sort();
+  assert.deepEqual(all, [
+    'LICENSE',
+    'public/demo/sample.csv',
+    'src/content/projects/pl/acme-corp-portal.md',
+    'src/scripts/x.js',
+    'tests/e2e/leak.spec.ts',
+  ]);
+  assert.equal(hits.find((h) => h.file.endsWith('acme-corp-portal.md')).line, 0);
+});
+
+test('readTermsFile decodes UTF-16LE (PowerShell 5.1 default) and UTF-8 with BOM', () => {
+  const root = tmpDir();
+  const utf16 = path.join(root, 'utf16.txt');
+  fs.writeFileSync(utf16, Buffer.concat([Buffer.from([0xff, 0xfe]), Buffer.from('Konwerter BOM\r\nŁódź SA\r\n', 'utf16le')]));
+  assert.deepEqual(readTermsFile(utf16), ['Konwerter BOM', 'Łódź SA']);
+  const bom8 = path.join(root, 'bom8.txt');
+  fs.writeFileSync(bom8, Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from('Acme Corp\n', 'utf8')]));
+  assert.deepEqual(readTermsFile(bom8), ['Acme Corp']);
+});
+
+test('readTermsFile rejects a mis-encoded file instead of matching nothing', () => {
+  const root = tmpDir();
+  const file = path.join(root, 'bad.txt');
+  fs.writeFileSync(file, Buffer.from('Acme Corp\n', 'utf16le')); // UTF-16 without BOM
+  assert.throws(() => readTermsFile(file), /encoding/);
+});
+
+function runGuard(env, args = []) {
+  const clean = { ...process.env, ...env };
+  for (const k of ['CONFIDENTIAL_TERMS', 'CONFIDENTIAL_TERMS_FILE', 'CI']) if (!(k in env)) delete clean[k];
+  return spawnSync(process.execPath, ['scripts/check-confidential.mjs', ...args], { env: clean, encoding: 'utf8' });
+}
+
+test('check-confidential CLI fails in CI when the term list is blank', () => {
+  const res = runGuard({ CI: '1', CONFIDENTIAL_TERMS: ' ; \n ' });
+  assert.equal(res.status, 1);
+  assert.match(res.stderr, /no confidential terms/i);
+});
+
+test('check-confidential CLI --require-terms fails locally without terms (pre-push hook)', () => {
+  const res = runGuard({}, ['--require-terms']);
+  assert.equal(res.status, 1);
+  assert.match(res.stderr, /CONFIDENTIAL_TERMS/);
+});
+
+test('check-confidential CLI prints a summary on a clean run', () => {
+  const res = runGuard({ CONFIDENTIAL_TERMS: `probe-${process.pid}-never-present` });
+  assert.equal(res.status, 0, res.stderr);
+  assert.match(res.stdout, /1 term\(s\), \d+ files, 0 hits/);
+});
+
+test('install-hooks points git at .githooks so pre-push runs the guard', () => {
+  const repo = tmpDir();
+  spawnSync('git', ['init', '-q'], { cwd: repo });
+  const script = path.resolve('scripts/install-hooks.mjs');
+  const res = spawnSync(process.execPath, [script], { cwd: repo, encoding: 'utf8' });
+  assert.equal(res.status, 0, res.stderr);
+  const cfg = spawnSync('git', ['config', '--get', 'core.hooksPath'], { cwd: repo, encoding: 'utf8' });
+  assert.equal(cfg.stdout.trim(), '.githooks');
+  const hook = fs.readFileSync('.githooks/pre-push', 'utf8');
+  assert.match(hook, /check-confidential\.mjs --require-terms/);
+});
+
+test('install-hooks is a no-op outside a git repository', () => {
+  const dir = tmpDir();
+  const res = spawnSync(process.execPath, [path.resolve('scripts/install-hooks.mjs')], { cwd: dir, encoding: 'utf8' });
+  assert.equal(res.status, 0, res.stderr);
 });

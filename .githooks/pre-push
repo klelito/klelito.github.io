@@ -1,0 +1,4 @@
+#!/bin/sh
+# Blocks a push that would publish a confidential term (README, section "Poufność").
+# Needs CONFIDENTIAL_TERMS_FILE (a file outside the repo) or CONFIDENTIAL_TERMS in the environment.
+exec node scripts/check-confidential.mjs --require-terms
