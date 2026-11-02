@@ -66,3 +66,18 @@ test('footer shows owner and build note', async ({ page }) => {
   await expect(footer).toContainText(SITE.name);
   await expect(footer).toContainText(ui.en['footer.built']);
 });
+
+for (const width of [768, 820, 900, 1024, 1280]) {
+  test(`nav pill fits the screen at ${width}px`, async ({ browser }, testInfo) => {
+    test.skip(testInfo.project.name === 'mobile', 'viewport set explicitly');
+    const ctx = await browser.newContext({ viewport: { width, height: 900 } });
+    const page = await ctx.newPage();
+    for (const path of ['/', '/en/']) {
+      await page.goto(`http://localhost:4321${path}`);
+      const box = (await page.locator('.nav-pill').boundingBox())!;
+      expect(box.x, `${path} left edge`).toBeGreaterThanOrEqual(0);
+      expect(box.x + box.width, `${path} right edge`).toBeLessThanOrEqual(width);
+    }
+    await ctx.close();
+  });
+}
