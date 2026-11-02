@@ -1,41 +1,35 @@
 import { test, expect } from '@playwright/test';
+import { SITE, ui, featured, highlights, projectPath, type Locale } from './content';
 
-test('command palette lists featured case studies (PL)', async ({ page }) => {
-  await page.goto('/');
-  const links = page.getByRole('navigation', { name: 'Case studies' }).getByRole('link');
-  await expect(links).toHaveCount(4);
-  await expect(links.first()).toHaveAttribute('href', '/projekty/bom-converter/');
-  await expect(links.first()).toHaveAttribute('data-active', '');
-  await expect(links.first()).toContainText('open bom-converter');
-});
+for (const locale of ['pl', 'en'] as Locale[]) {
+  test(`command palette lists the featured case studies (${locale})`, async ({ page }) => {
+    const expected = featured(locale);
+    await page.goto(locale === 'pl' ? '/' : '/en/');
+    const links = page.getByRole('navigation', { name: 'Case studies' }).getByRole('link');
+    await expect(links).toHaveCount(expected.length);
+    await expect(links.first()).toHaveAttribute('href', projectPath(locale, expected[0].slug));
+    await expect(links.first()).toHaveAttribute('data-active', '');
+    await expect(links.first()).toContainText(`open ${expected[0].slug}`);
+  });
 
-test('command palette links to EN case studies on /en/', async ({ page }) => {
-  await page.goto('/en/');
-  const links = page.getByRole('navigation', { name: 'Case studies' }).getByRole('link');
-  await expect(links).toHaveCount(4);
-  await expect(links.first()).toHaveAttribute('href', '/en/projects/bom-converter/');
-});
-
-test('hero headline keeps spaces around the accent word', async ({ page }) => {
-  await page.goto('/');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-    'Automatyzuję produkcję i łączę systemy, które ze sobą nie rozmawiają.',
-  );
-  await page.goto('/en/');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-    "I automate manufacturing and connect systems that don't talk to each other.",
-  );
-});
+  test(`hero headline keeps spaces around the accent word (${locale})`, async ({ page }) => {
+    const s = ui[locale];
+    await page.goto(locale === 'pl' ? '/' : '/en/');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+      `${s['hero.titleBefore']} ${s['hero.titleAccent']} ${s['hero.titleAfter']}`,
+    );
+  });
+}
 
 test('both hero CTAs are fully visible on the first screen', async ({ page }) => {
   await page.goto('/');
   const viewport = page.viewportSize()!;
   const hero = page.locator('.hero');
   const ctas = [
-    hero.getByRole('link', { name: 'Pobierz CV', exact: true }),
-    hero.getByRole('link', { name: 'Porozmawiajmy o projekcie' }),
+    hero.getByRole('link', { name: ui.pl['cta.cv'], exact: true }),
+    hero.getByRole('link', { name: ui.pl['cta.talk'] }),
   ];
-  await expect(ctas[0]).toHaveAttribute('href', '/cv/cv-pl.pdf');
+  await expect(ctas[0]).toHaveAttribute('href', SITE.cv.pl);
   await expect(ctas[1]).toHaveAttribute('href', '#kontakt');
   for (const cta of ctas) {
     const box = (await cta.boundingBox())!;
@@ -65,8 +59,9 @@ test('aurora animates when motion is allowed', async ({ page }) => {
   expect(names).not.toContain('none');
 });
 
-test('metrics strip shows the four highlights', async ({ page }) => {
+test('metrics strip shows the highlights', async ({ page }) => {
+  const expected = highlights();
   await page.goto('/');
-  await expect(page.locator('.metrics .metric-value')).toHaveText(['6+', '5', '−70%', '1']);
-  await expect(page.locator('.metrics .metric-label').first()).toHaveText('wdrożonych narzędzi');
+  await expect(page.locator('.metrics .metric-value')).toHaveText(expected.map((h) => h.value));
+  await expect(page.locator('.metrics .metric-label')).toHaveText(expected.map((h) => h.label.pl));
 });

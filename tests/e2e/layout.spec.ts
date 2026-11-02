@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { SITE, ui } from './content';
 
 test('head metadata per locale', async ({ page }) => {
   await page.goto('/en/');
@@ -11,16 +12,16 @@ test('head metadata per locale', async ({ page }) => {
 
 test('language switch goes to the counterpart', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('banner').getByRole('link', { name: 'English version' }).click();
+  await page.getByRole('banner').getByRole('link', { name: ui.pl['lang.switchTo'] }).click();
   await expect(page).toHaveURL(/\/en\/$/);
-  await page.getByRole('banner').getByRole('link', { name: 'Wersja polska' }).click();
+  await page.getByRole('banner').getByRole('link', { name: ui.en['lang.switchTo'] }).click();
   await expect(page).toHaveURL(/:\d+\/$/);
 });
 
 test('CV pill downloads the locale CV', async ({ page }) => {
   await page.goto('/en/');
-  const cv = page.getByRole('banner').getByRole('link', { name: 'Download CV' });
-  await expect(cv).toHaveAttribute('href', '/cv/cv-en.pdf');
+  const cv = page.getByRole('banner').getByRole('link', { name: ui.en['cta.cv'] });
+  await expect(cv).toHaveAttribute('href', SITE.cv.en);
   await expect(cv).toHaveAttribute('download', '');
 });
 
@@ -43,8 +44,8 @@ test('mobile menu works without JavaScript', async ({ browser }) => {
   const ctx = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 375, height: 812 } });
   const page = await ctx.newPage();
   await page.goto('http://localhost:4321/');
-  await page.getByText('Menu').click();
-  const contact = page.locator('details').getByRole('link', { name: 'Kontakt' });
+  await page.getByText(ui.pl.menu, { exact: true }).click();
+  const contact = page.locator('details').getByRole('link', { name: ui.pl['nav.contact'] });
   await expect(contact).toBeVisible();
   await expect(contact).toHaveAttribute('href', '/#kontakt');
   await ctx.close();
@@ -53,7 +54,7 @@ test('mobile menu works without JavaScript', async ({ browser }) => {
 test('skip link targets main', async ({ page }) => {
   await page.goto('/');
   await page.keyboard.press('Tab');
-  const skip = page.getByRole('link', { name: 'Przejdź do treści' });
+  const skip = page.getByRole('link', { name: ui.pl.skip });
   await expect(skip).toBeFocused();
   await expect(skip).toHaveAttribute('href', '#main');
   await expect(page.locator('main#main')).toHaveCount(1);
@@ -62,6 +63,6 @@ test('skip link targets main', async ({ page }) => {
 test('footer shows owner and build note', async ({ page }) => {
   await page.goto('/en/');
   const footer = page.getByRole('contentinfo');
-  await expect(footer).toContainText('Imię Nazwisko');
-  await expect(footer).toContainText('Built with Astro · Hosted on GitHub Pages');
+  await expect(footer).toContainText(SITE.name);
+  await expect(footer).toContainText(ui.en['footer.built']);
 });
