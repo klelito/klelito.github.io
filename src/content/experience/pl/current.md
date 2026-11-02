@@ -1,11 +1,11 @@
 ---
-start: 2022
+start: 2025
 end: null
-role: Inżynier ds. rozwoju oprogramowania
-org: Firma z branży EMS (produkcja elektroniki)
+role: Inżynier ds. oprogramowania i elektroniki
+org: Firma z branży produkcji elektroniki (EMS)
 order: 1
 ---
 
-- Zaprojektowałem i wdrożyłem 6 narzędzi wewnętrznych używanych codziennie przez produkcję, magazyn i dział ofertowania.
-- Zintegrowałem procesy magazynowe i ofertowe z SAP Business One (MS SQL).
-- Wprowadziłem konteneryzację (Docker) i powtarzalne wdrożenia.
+- Rozwijam wewnętrzną aplikację webową działu technicznego i logistyki: zadania, zapytania ofertowe (RFQ), wyceny działów i rejestry.
+- Buduję narzędzia zintegrowane z SAP Business One: analizę BOM z dopasowaniem MPN, wsparcie przesunięć magazynowych skanerem DataMatrix, raporty i etykiety magazynowe.
+- Wdrażam aplikacje w kontenerach Docker, z wersjonowaniem wydań i dokumentacją.

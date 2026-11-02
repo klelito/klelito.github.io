@@ -1,17 +1,17 @@
-# PRZYKŁADOWE DANE — do podmiany (spec §9)
-- id: tools
+# Source: CV 2026 and "Projekty techniczne". Quote every text value (commas inside { } split values).
+- id: experience
   order: 1
-  value: "6+"
-  label: { pl: wdrożonych narzędzi, en: tools shipped }
-- id: technologies
+  value: "3+"
+  label: { pl: "lata w B+R, diagnostyce i serwisie elektroniki", en: "years in electronics R&D, diagnostics and repair" }
+- id: power-cost
   order: 2
-  value: "5"
-  label: { pl: technologii w produkcji, en: technologies in production }
-- id: bom
+  value: "−60%"
+  label: { pl: "kosztu produkcji układu zasilania", en: "power-supply production cost" }
+- id: power-failures
   order: 3
-  value: "−70%"
-  label: { pl: czasu przygotowania BOM, en: BOM preparation time }
-- id: erp
+  value: "−40%"
+  label: { pl: "awaryjności po przeprojektowaniu", en: "failure rate after the redesign" }
+- id: olympiad
   order: 4
-  value: "1"
-  label: { pl: źródło prawdy w ERP, en: source of truth in the ERP }
+  value: "Finalista"
+  label: { pl: "OIIT 2020 — Elektronika i Automatyka", en: "national innovation olympiad 2020" }

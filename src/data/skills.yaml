@@ -1,21 +1,21 @@
-# PRZYKŁADOWE DANE — do podmiany (spec §9)
-- id: backend
+# Source: CV 2026 (key competences), RH124 certificate, GitHub repositories.
+- id: electronics
   order: 1
-  icon: server
-  label: { pl: Backend i web, en: Backend & web }
-  items: [PHP, Python, Django, FastAPI, JavaScript]
-- id: desktop
+  icon: chip
+  label: { pl: "Elektronika i serwis", en: "Electronics & repair" }
+  items: [ECU/EMU, SMD/THT, PCB rework, OBD, Hot-air]
+- id: embedded
   order: 2
   icon: terminal
-  label: { pl: Desktop i terminale, en: Desktop & terminals }
-  items: [C#, .NET, VB.NET]
-- id: data
+  label: { pl: "Embedded i komunikacja", en: "Embedded & buses" }
+  items: [C, C++, AVR, PIC, ESP32, HCS, PlatformIO, CAN, I2C, SPI, UART]
+- id: design
   order: 3
-  icon: database
-  label: { pl: Dane i ERP, en: Data & ERP }
-  items: [SAP Business One, MS SQL, MySQL, SQLite]
-- id: devops
+  icon: layout
+  label: { pl: "Projektowanie i prototypy", en: "Design & prototyping" }
+  items: [Altium Designer, EasyEDA, 3D printing]
+- id: software
   order: 4
-  icon: container
-  label: { pl: DevOps i narzędzia, en: DevOps & tooling }
-  items: [Docker, Git, PowerShell, GitHub Actions]
+  icon: database
+  label: { pl: "Oprogramowanie i dane", en: "Software & data" }
+  items: [Python, C# / .NET, PHP, MS SQL, PostgreSQL, MySQL, Oracle, SQLite, SAP Business One, Docker, Git, Linux (RH124)]

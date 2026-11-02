@@ -1,25 +1,24 @@
-# PRZYKŁADOWE DANE — do podmiany (spec §9)
 # Quote every text value: an unquoted comma inside { } splits the value into a new key.
-- id: erp
+- id: repair
   kind: service
   order: 1
-  title: { pl: "Integracje z SAP Business One", en: "SAP Business One integrations" }
-  text: { pl: "Spójne dane między ERP a halą produkcyjną.", en: "Consistent data between the ERP and the shop floor." }
-- id: internal-tools
+  title: { pl: "Diagnostyka i naprawa elektroniki", en: "Electronics diagnostics and repair" }
+  text: { pl: "Sterowniki, płytki i urządzenia — z testami i dokumentacją.", en: "Controllers, boards and devices — tested and documented." }
+- id: pcb
   kind: service
   order: 2
-  title: { pl: "Narzędzia wewnętrzne i panele webowe", en: "Internal tools and web dashboards" }
-  text: { pl: "Aplikacje szyte na miarę procesu, nie odwrotnie.", en: "Apps built around your process, not the other way round." }
-- id: automation
+  title: { pl: "Projektowanie PCB i prototypy", en: "PCB design and prototypes" }
+  text: { pl: "Od schematu w Altium po uruchomioną, zmierzoną płytkę.", en: "From an Altium schematic to a working, measured board." }
+- id: firmware
   kind: service
   order: 3
-  title: { pl: "Automatyzacja magazynu i produkcji", en: "Warehouse and production automation" }
-  text: { pl: "Skanery, etykiety, przesunięcia bez papieru.", en: "Scanners, labels, paperless transfers." }
-- id: data
+  title: { pl: "Firmware i IoT", en: "Firmware and IoT" }
+  text: { pl: "AVR, ESP32, PIC — czujniki, sterowanie i komunikacja CAN, I2C, SPI, UART.", en: "AVR, ESP32, PIC — sensors, control and CAN, I2C, SPI, UART communication." }
+- id: production-tools
   kind: service
   order: 4
-  title: { pl: "Porządkowanie danych", en: "Data clean-up" }
-  text: { pl: "BOM, kartoteki, raporty, które się zgadzają.", en: "BOMs, item masters and reports that add up." }
+  title: { pl: "Narzędzia dla produkcji", en: "Tools for manufacturing" }
+  text: { pl: "Aplikacje i integracje z SAP Business One dla magazynu i działu technicznego.", en: "Apps and SAP Business One integrations for the warehouse and the technical team." }
 - id: talk
   kind: step
   order: 1

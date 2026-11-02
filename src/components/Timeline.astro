@@ -12,6 +12,8 @@ interface Props {
 const { locale, items } = Astro.props;
 const present = t(locale)['experience.present'];
 const rendered = await Promise.all(items.map(async (item) => ({ item, Content: (await render(item)).Content })));
+// "2025" rather than "2025 — 2025" for a job that started and ended in the same year
+const period = ({ start, end }: ExperienceItem['data']) => (end === start ? String(start) : `${start} — ${end ?? present}`);
 ---
 
 <ol class="timeline" role="list">
@@ -20,9 +22,7 @@ const rendered = await Promise.all(items.map(async (item) => ({ item, Content: (
       <li class="entry">
         <span class="dot" aria-hidden="true" />
         <article class="glass card">
-          <p class="period mono">
-            {item.data.start} — {item.data.end ?? present}
-          </p>
+          <p class="period mono">{period(item.data)}</p>
           <h3 class="role">{item.data.role}</h3>
           <p class="org">{item.data.org}</p>
           <div class="achievements">

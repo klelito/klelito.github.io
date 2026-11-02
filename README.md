@@ -31,14 +31,13 @@ Zmieniasz wyłącznie te pliki — nigdy komponentów.
 
 | Plik | Zawartość |
 |---|---|
-| `src/config/site.ts` | imię, e-mail, LinkedIn, GitHub, adres strony (`url`), ścieżki do CV |
+| `src/config/site.ts` | imię, e-mail, LinkedIn, GitHub, adres strony (`url`), CV (`cv: null` = bez pobierania CV) |
 | `src/content/projects/pl/<slug>.md` + `en/<slug>.md` | case studies (frontmatter + treść z nagłówkami `##`) |
 | `src/content/experience/pl/*.md` + `en/*.md` | oś czasu doświadczenia |
 | `src/data/skills.yaml` | grupy umiejętności |
 | `src/data/collaboration.yaml` | usługi i kroki współpracy |
 | `src/data/highlights.yaml` | 4 liczby w pasku pod hero |
 | `src/i18n/ui.ts` | teksty interfejsu (nagłówek, przyciski, nagłówki sekcji) |
-| `public/cv/cv-pl.pdf`, `public/cv/cv-en.pdf` | CV do pobrania |
 | `public/diagrams/<slug>.<pl\|en>.svg` | opcjonalne diagramy case studies (`diagram:` we frontmatterze) |
 
 Zasady, których pilnuje build (złamanie = błąd):
@@ -54,7 +53,7 @@ Zasady, których pilnuje build (złamanie = błąd):
 
 ### CV i obrazy podglądu
 
-- CV: podmień `public/cv/cv-pl.pdf` i `public/cv/cv-en.pdf` (nazwy bez zmian). **Strażnik poufności nie czyta PDF-ów** — anonimizacja CV jest po Twojej stronie.
+- CV do pobrania jest **wyłączone** (`cv: null` w `src/config/site.ts`), więc strona nie pokazuje żadnego przycisku CV. Aby je włączyć: wrzuć `public/cv/cv-pl.pdf` i `public/cv/cv-en.pdf` i ustaw `cv: { pl: '/cv/cv-pl.pdf', en: '/cv/cv-en.pdf' }` — `npm run check` sprawdzi, czy pliki istnieją. **Strażnik poufności nie czyta PDF-ów**: CV publikowane na stronie przejrzyj sam (telefon, nazwy firm).
 - Po zmianie imienia lub nagłówka w hero uruchom `npm run og` i zacommituj nowe PNG.
 
 ## Poufność
@@ -70,26 +69,12 @@ Repozytorium jest **publiczne** (wymóg darmowego GitHub Pages), więc cała tre
 - Bez listy fraz lokalny `check` tylko ostrzega; w CI kończy się błędem. Pusta lista lub źle zakodowany plik to zawsze błąd.
 - **Zalecane:** `npm run hooks:install` włącza hook `pre-push`, który uruchamia strażnika **przed** wysłaniem zmian do publicznego repozytorium (CI sprawdza dopiero po pushu, gdy treść jest już jawna w historii). Hook wymaga ustawionego `CONFIDENTIAL_TERMS_FILE`; awaryjnie `git push --no-verify`.
 
-## Publikacja (jednorazowa konfiguracja)
+## Publikacja
 
-1. Utwórz **publiczne** repozytorium o nazwie `<login>.github.io`.
-2. *Settings → Pages → Build and deployment → Source:* **GitHub Actions**.
-3. Dodaj sekret `CONFIDENTIAL_TERMS` (patrz wyżej).
-4. W `src/config/site.ts` ustaw `url: 'https://<login>.github.io'`.
-5. `git remote add origin https://github.com/<login>/<login>.github.io.git` i `git push -u origin main`.
-6. Sprawdź zakładkę *Actions* — przebieg **Deploy** musi być zielony; strona: `https://<login>.github.io/`.
+Strona jest publikowana z repozytorium **`klelito/klelito.github.io`** pod adresem **https://klelito.github.io/** (*Settings → Pages → Source:* **GitHub Actions**). Poprzednia strona z 2023 roku jest zachowana w prywatnym repozytorium `klelito/homepage-2023-archive`.
 
-Każdy kolejny push do `main` publikuje stronę automatycznie. Jeśli którykolwiek krok kontroli zawiedzie, publikacja jest wstrzymana, a na stronie zostaje poprzednia wersja.
+Każdy push do `main` uruchamia przebieg **Deploy**: wszystkie kontrole i testy, potem publikacja. Jeśli którykolwiek krok zawiedzie, publikacja jest wstrzymana, a na stronie zostaje poprzednia wersja. Wymaga sekretu `CONFIDENTIAL_TERMS` (patrz „Poufność”).
 
-## Przed publikacją — do uzupełnienia
+## Edycja treści
 
-Strona startuje na **przykładowych** danych z projektów Superdesign. Przed pierwszą publikacją:
-
-- [ ] imię i nazwisko, rola, e-mail, LinkedIn, GitHub, login GitHub (`src/config/site.ts`, `meta.homeTitle` w `src/i18n/ui.ts`)
-- [ ] prawdziwe metryki, lata i stanowiska (`highlights.yaml`, `experience/`, `projects/`)
-- [ ] własne case studies PL + EN; usuń przykładowe projekty łącznie z `minimal-sample.md` (to fixture testowy)
-- [ ] CV PDF w obu językach
-- [ ] lista fraz poufnych w sekrecie `CONFIDENTIAL_TERMS`
-- [ ] `npm run og` po zmianie imienia
-
-Testy e2e odwołują się do przykładowych treści (np. „Konwerter BOM”) — przy podmianie treści zaktualizuj je razem z danymi.
+Testy e2e czytają oczekiwane wartości z tych samych plików treści co strona, więc zmiana treści nie wymaga zmian w testach. Po zmianie imienia lub hasła w hero uruchom `npm run og`.

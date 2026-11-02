@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { TEST_ORIGIN } from '../../playwright.config';
 import { SITE, ui, projects, projectPath } from './content';
 
 test('head metadata per locale', async ({ page }) => {
@@ -45,7 +46,7 @@ test('CV pill renders a space between its words on desktop', async ({ page }, te
 test('mobile menu works without JavaScript', async ({ browser }) => {
   const ctx = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 375, height: 812 } });
   const page = await ctx.newPage();
-  await page.goto('http://localhost:4321/');
+  await page.goto(`${TEST_ORIGIN}/`);
   await page.getByText(ui.pl.menu, { exact: true }).click();
   const contact = page.locator('details').getByRole('link', { name: ui.pl['nav.contact'] });
   await expect(contact).toBeVisible();
@@ -75,7 +76,7 @@ for (const width of [768, 820, 900, 1024, 1280]) {
     const ctx = await browser.newContext({ viewport: { width, height: 900 } });
     const page = await ctx.newPage();
     for (const path of ['/', '/en/']) {
-      await page.goto(`http://localhost:4321${path}`);
+      await page.goto(`${TEST_ORIGIN}${path}`);
       const box = (await page.locator('.nav-pill').boundingBox())!;
       expect(box.x, `${path} left edge`).toBeGreaterThanOrEqual(0);
       expect(box.x + box.width, `${path} right edge`).toBeLessThanOrEqual(width);
@@ -87,7 +88,7 @@ for (const width of [768, 820, 900, 1024, 1280]) {
 test('mobile menu closes after choosing a section and on Escape', async ({ browser }) => {
   const ctx = await browser.newContext({ viewport: { width: 375, height: 812 } });
   const page = await ctx.newPage();
-  await page.goto('http://localhost:4321/');
+  await page.goto(`${TEST_ORIGIN}/`);
   const menu = page.locator('details.nav-menu');
   const summary = menu.locator('summary');
 

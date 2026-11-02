@@ -1,34 +1,24 @@
 ---
 title: Macierz kompetencji
-summary: Mapa umiejętności pracowników produkcji z planowaniem szkoleń.
-kind: own
-year: 2025
-role: Projekt własny — całość
-stack: [Django, Python, SQLite]
-metric: { value: "1", label: widok zamiast 12 arkuszy }
-links:
-  repo: https://github.com/example/skills-matrix
-featured: true
-order: 4
+summary: Aplikacja webowa do prowadzenia macierzy umiejętności zespołu — Django i PostgreSQL, wdrażana w Dockerze.
+kind: company
+year: 2026
+role: Projekt i implementacja
+stack: [Python, Django, PostgreSQL, Docker]
+metric: { value: "1", label: "wspólny widok kompetencji zespołu" }
+order: 8
 ---
 
 ## Kontekst
 
-Kompetencje pracowników produkcji były śledzone w kilkunastu arkuszach kalkulacyjnych.
-
-## Problem
-
-Trudno było sprawdzić, kto może obsłużyć dane stanowisko i kogo trzeba przeszkolić.
+Zespół potrzebował jednego miejsca, w którym widać umiejętności pracowników.
 
 ## Rozwiązanie
 
-Aplikacja w Django z macierzą umiejętności, poziomami biegłości i planem szkoleń.
-
-## Efekt
-
-Jeden widok zastąpił 12 arkuszy, a planowanie obsady zmian zajmuje minuty.
+Aplikacja w Django z bazą PostgreSQL (także w chmurze, z połączeniem TLS), uruchamiana w Dockerze. Ma osobne środowiska: lokalne z bazą testową, aktualizowane z gałęzi głównej oraz produkcyjne na maszynie wirtualnej Windows w sieci firmowej.
 
 ## Moja rola
 
-- pomysł, projekt i implementacja,
-- utrzymanie i rozwój.
+- projekt i implementacja aplikacji,
+- konfiguracja środowisk i wdrożenia,
+- dokumentacja uruchomienia.

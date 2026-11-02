@@ -1,8 +1,10 @@
 import { test, expect } from '@playwright/test';
+import { TEST_ORIGIN } from '../../playwright.config';
 import { SITE, ui, experience, skills, collaboration } from './content';
 
 const s = ui.pl;
-const period = (e: { start: number; end: number | null }, present: string) => `${e.start} — ${e.end ?? present}`;
+const period = (e: { start: number; end: number | null }, present: string) =>
+  e.end === e.start ? String(e.start) : `${e.start} — ${e.end ?? present}`;
 
 test('experience timeline is newest first with a localized "present"', async ({ page }) => {
   const pl = experience('pl');
@@ -41,7 +43,7 @@ test('copy button copies the e-mail address', async ({ page, context }) => {
 test('contact works without JavaScript', async ({ browser }) => {
   const ctx = await browser.newContext({ javaScriptEnabled: false });
   const page = await ctx.newPage();
-  await page.goto('http://localhost:4321/');
+  await page.goto(`${TEST_ORIGIN}/`);
   const contact = page.locator('section#kontakt');
   await expect(contact.locator('[data-copy-email]')).toBeHidden();
   const mail = contact.getByRole('link', { name: SITE.email });

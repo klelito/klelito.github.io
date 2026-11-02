@@ -1,34 +1,24 @@
 ---
 title: Skills Matrix
-summary: A map of production staff skills with training planning.
-kind: own
-year: 2025
-role: Personal project — end to end
-stack: [Django, Python, SQLite]
-metric: { value: "1", label: view instead of 12 spreadsheets }
-links:
-  repo: https://github.com/example/skills-matrix
-featured: true
-order: 4
+summary: A web app for keeping the team's skills matrix — Django and PostgreSQL, deployed with Docker.
+kind: company
+year: 2026
+role: Design and implementation
+stack: [Python, Django, PostgreSQL, Docker]
+metric: { value: "1", label: "shared view of team skills" }
+order: 8
 ---
 
 ## Context
 
-Production staff skills were tracked across a dozen spreadsheets.
-
-## Problem
-
-It was hard to see who could run a given workstation and who needed training.
+The team needed a single place that shows employees' skills.
 
 ## Solution
 
-A Django app with a skills matrix, proficiency levels and a training plan.
-
-## Outcome
-
-One view replaced 12 spreadsheets, and planning shift staffing takes minutes.
+A Django app with PostgreSQL (including a cloud database over TLS), run in Docker. It has separate environments: local with a test database, one updated from the main branch, and production on a Windows virtual machine on the company network.
 
 ## My role
 
-- idea, design and implementation,
-- maintenance and further development.
+- designing and implementing the app,
+- environment configuration and deployments,
+- setup documentation.
