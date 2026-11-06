@@ -1,4 +1,4 @@
-# Source: CV 2026 (key competences), RH124 certificate, GitHub repositories.
+# Source: CV 2026 (key competences), RH124 certificate, GitHub repositories, owner update 2026-11-06.
 - id: electronics
   order: 1
   icon: chip
@@ -18,4 +18,14 @@
   order: 4
   icon: database
   label: { pl: "Oprogramowanie i dane", en: "Software & data" }
-  items: [Python, C# / .NET, PHP, MS SQL, PostgreSQL, MySQL, Oracle, SQLite, SAP Business One, Docker, Git, Linux (RH124)]
+  items: [Python, C# / .NET, VB.NET, PHP, MS SQL, PostgreSQL, MySQL, Oracle, SQLite, SAP Business One]
+- id: ai-agents
+  order: 5
+  icon: terminal
+  label: { pl: "AI i praca agentowa", en: "AI & agent workflows" }
+  items: [Claude Code, Codex, MCP servers, API integration, Agent skills, Parallel sessions, GitHub Issues & PRs]
+- id: infrastructure
+  order: 6
+  icon: server
+  label: { pl: "Serwery i wdrożenia", en: "Servers & deployments" }
+  items: [Docker, Linux (RH124), Git, Production servers, Backups, Technical documentation]
