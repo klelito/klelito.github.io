@@ -2,8 +2,8 @@
 start: 2023
 end: null
 role: BEng studies — Computer Science in Computer Engineering
-org: Cracow University of Technology (part-time)
-order: 4
+org: Cracow University of Technology, Kraków (part-time)
+order: 1
 ---
 
 - Red Hat System Administration I (RH124) certificate, 2024.

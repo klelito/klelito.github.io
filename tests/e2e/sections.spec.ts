@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { TEST_ORIGIN } from '../../playwright.config';
-import { SITE, ui, experience, skills, collaboration } from './content';
+import { SITE, ui, experience, education, skills, collaboration } from './content';
 
 const s = ui.pl;
 const period = (e: { start: number; end: number | null }, present: string) =>
@@ -15,6 +15,22 @@ test('experience timeline is newest first with a localized "present"', async ({ 
   if (pl[0].bullets.length) await expect(section.locator('li li').first()).toHaveText(pl[0].bullets[0]);
   await page.goto('/en/');
   await expect(page.locator('section#doswiadczenie .period').first()).toHaveText(period(experience('en')[0], ui.en['experience.present']));
+});
+
+test('education timeline follows experience, newest first, and is in the nav', async ({ page }) => {
+  const pl = education('pl');
+  await page.goto('/');
+  const section = page.locator('section#edukacja');
+  await expect(section.getByRole('heading', { level: 2 })).toHaveText(s['education.title']);
+  await expect(section.locator('.period')).toHaveText(pl.map((e) => period(e, s['experience.present'])));
+  await expect(section.locator('.org')).toHaveText(pl.map((e) => e.org));
+  const ids = await page.locator('main section[id]').evaluateAll((els) => els.map((el) => el.id));
+  expect(ids.indexOf('edukacja')).toBe(ids.indexOf('doswiadczenie') + 1);
+  await expect(page.locator(`a[href$="#edukacja"]`).first()).toHaveText(s['nav.education']);
+  await page.goto('/en/');
+  const en = education('en');
+  await expect(page.locator('section#edukacja h2')).toHaveText(ui.en['education.title']);
+  await expect(page.locator('section#edukacja .role')).toHaveText(en.map((e) => e.role));
 });
 
 test('skills, services and process steps', async ({ page }) => {

@@ -2,18 +2,18 @@
 import { render } from 'astro:content';
 import type { Locale } from '../i18n/routes';
 import { t } from '../i18n/ui';
-import type { ExperienceItem } from '../lib/content';
+import type { TimelineItem } from '../lib/content';
 
 interface Props {
   locale: Locale;
-  items: ExperienceItem[];
+  items: TimelineItem[];
 }
 
 const { locale, items } = Astro.props;
 const present = t(locale)['experience.present'];
 const rendered = await Promise.all(items.map(async (item) => ({ item, Content: (await render(item)).Content })));
 // "2025" rather than "2025 — 2025" for a job that started and ended in the same year
-const period = ({ start, end }: ExperienceItem['data']) => (end === start ? String(start) : `${start} — ${end ?? present}`);
+const period = ({ start, end }: TimelineItem['data']) => (end === start ? String(start) : `${start} — ${end ?? present}`);
 ---
 
 <ol class="timeline" role="list">

@@ -71,11 +71,14 @@ export function projects(locale: Locale): ProjectData[] {
 export const featured = (locale: Locale) => projects(locale).filter((p) => p.featured === true);
 
 /** Newest first, like the timeline. */
-export function experience(locale: Locale): ExperienceData[] {
-  return entries('experience', locale)
+function timeline(collection: 'experience' | 'education', locale: Locale): ExperienceData[] {
+  return entries(collection, locale)
     .map(({ data, body }) => ({ ...data, bullets: lines(body, /^- (.+)$/) }) as ExperienceData)
     .sort((a, b) => b.start - a.start || a.order - b.order);
 }
+
+export const experience = (locale: Locale) => timeline('experience', locale);
+export const education = (locale: Locale) => timeline('education', locale);
 
 export const highlights = () => yamlList<{ value: string; label: Bilingual; order: number }>('highlights').sort(byOrder);
 export const skills = () => yamlList<{ label: Bilingual; items: string[]; order: number }>('skills').sort(byOrder);

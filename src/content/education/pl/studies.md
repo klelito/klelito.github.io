@@ -2,8 +2,8 @@
 start: 2023
 end: null
 role: Studia inżynierskie — Informatyka w inżynierii komputerowej
-org: Politechnika Krakowska (studia niestacjonarne)
-order: 4
+org: Politechnika Krakowska, Kraków (studia niestacjonarne)
+order: 1
 ---
 
 - Certyfikat Red Hat System Administration I (RH124), 2024.

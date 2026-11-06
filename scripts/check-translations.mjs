@@ -24,7 +24,7 @@ function slugsIn(dir) {
 export function checkTranslations(contentDir) {
   const errors = [];
 
-  for (const collection of ['projects', 'experience']) {
+  for (const collection of ['projects', 'experience', 'education']) {
     const slugs = Object.fromEntries(LOCALES.map((l) => [l, slugsIn(path.join(contentDir, collection, l))]));
 
     for (const locale of LOCALES) {

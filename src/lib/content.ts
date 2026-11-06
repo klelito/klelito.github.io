@@ -4,6 +4,9 @@ import { splitId, adjacent } from './content-utils';
 
 export type Project = CollectionEntry<'projects'> & { slug: string };
 export type ExperienceItem = CollectionEntry<'experience'>;
+export type EducationItem = CollectionEntry<'education'>;
+/** Anything the timeline can show: jobs or schools (same fields). */
+export type TimelineItem = ExperienceItem | EducationItem;
 export type SkillGroup = CollectionEntry<'skills'>['data'];
 export type CollaborationItem = CollectionEntry<'collaboration'>['data'];
 export type Highlight = CollectionEntry<'highlights'>['data'];
@@ -34,6 +37,12 @@ export async function caseStudyPaths(locale: Locale) {
 /** Experience of one locale, newest first. */
 export async function getExperience(locale: Locale): Promise<ExperienceItem[]> {
   const entries = await getCollection('experience', ({ id }) => splitId(id).locale === locale);
+  return entries.sort((a, b) => b.data.start - a.data.start || byOrder(a.data, b.data));
+}
+
+/** Education of one locale, newest first. */
+export async function getEducation(locale: Locale): Promise<EducationItem[]> {
+  const entries = await getCollection('education', ({ id }) => splitId(id).locale === locale);
   return entries.sort((a, b) => b.data.start - a.data.start || byOrder(a.data, b.data));
 }
 

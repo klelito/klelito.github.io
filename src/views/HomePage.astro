@@ -10,7 +10,14 @@ import ProcessSteps from '../components/ProcessSteps.astro';
 import ContactCard from '../components/ContactCard.astro';
 import { homePath, type Locale } from '../i18n/routes';
 import { t } from '../i18n/ui';
-import { getFeaturedProjects, getHighlights, getExperience, getSkillGroups, getCollaboration } from '../lib/content';
+import {
+  getFeaturedProjects,
+  getHighlights,
+  getExperience,
+  getEducation,
+  getSkillGroups,
+  getCollaboration,
+} from '../lib/content';
 
 interface Props {
   locale: Locale;
@@ -18,10 +25,11 @@ interface Props {
 
 const { locale } = Astro.props;
 const s = t(locale);
-const [featured, highlights, experience, skills, collaboration] = await Promise.all([
+const [featured, highlights, experience, education, skills, collaboration] = await Promise.all([
   getFeaturedProjects(locale),
   getHighlights(),
   getExperience(locale),
+  getEducation(locale),
   getSkillGroups(),
   getCollaboration(),
 ]);
@@ -34,6 +42,11 @@ const [featured, highlights, experience, skills, collaboration] = await Promise.
   <section id="doswiadczenie" class="section container" aria-labelledby="doswiadczenie-title">
     <h2 id="doswiadczenie-title" class="section-title heading-gap">{s['experience.title']}</h2>
     <Timeline locale={locale} items={experience} />
+  </section>
+
+  <section id="edukacja" class="section container" aria-labelledby="edukacja-title">
+    <h2 id="edukacja-title" class="section-title heading-gap">{s['education.title']}</h2>
+    <Timeline locale={locale} items={education} />
   </section>
 
   <section id="umiejetnosci" class="section container" aria-labelledby="umiejetnosci-title">

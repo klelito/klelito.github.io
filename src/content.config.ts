@@ -18,8 +18,14 @@ const experience = defineCollection({
   schema: experienceSchema,
 });
 
+// Same shape as experience: `role` holds the field of study or title, `org` the school.
+const education = defineCollection({
+  loader: glob({ base: './src/content/education', pattern: '**/*.md' }),
+  schema: experienceSchema,
+});
+
 const skills = defineCollection({ loader: file('src/data/skills.yaml'), schema: skillGroupSchema });
 const collaboration = defineCollection({ loader: file('src/data/collaboration.yaml'), schema: collaborationItemSchema });
 const highlights = defineCollection({ loader: file('src/data/highlights.yaml'), schema: highlightSchema });
 
-export const collections = { projects, experience, skills, collaboration, highlights };
+export const collections = { projects, experience, education, skills, collaboration, highlights };
